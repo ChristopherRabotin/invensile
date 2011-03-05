@@ -25,3 +25,51 @@ void MainWindow::changeEvent(QEvent *e)
         break;
     }
 }
+
+void MainWindow::newDb()
+{
+    QString dbFile = QFileDialog::getExistingDirectory(this,
+                                   tr("Select directory"), QDir::currentPath());
+        /* now we create the database file */
+
+
+   db.setDatabaseName(dbFile);
+        if (!db.open()) {
+            QMessageBox::critical(0, tr("Cannot open database"),
+                tr("Unable to establish a database connection."), QMessageBox::Cancel);
+            return;
+        }
+
+        QSqlQuery query;
+        query.exec("PRAGMA foreignkey = ON");
+
+        /* to use color: QColor::name() , get the value and prepend with '#' */
+}
+void MainWindow::openDb()
+{
+
+}
+void MainWindow::closeDb()
+{
+
+}
+void MainWindow::exportInventory()
+{
+
+}
+void MainWindow::modify()
+{
+
+}
+void MainWindow::create()
+{
+
+}
+void MainWindow::preferences()
+{
+
+}
+void MainWindow::about()
+{
+
+}
