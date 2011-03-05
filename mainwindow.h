@@ -5,7 +5,11 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSqlQuery>
-
+#include <QSqlRelationalTableModel>
+#include <QDate>
+#include <QSqlError>
+#include <QDebug>
+#include <QStringList>
 #define VERSION 0.1
 
 namespace Ui {
@@ -23,6 +27,9 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    QSqlDatabase db;
+    QSqlQuery query;
+    bool execQuery(QString query);
 
 public slots:
     /* File slots */

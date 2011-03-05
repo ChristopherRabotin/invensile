@@ -124,10 +124,10 @@ public:
     QPushButton *modifyItemButton;
     QPushButton *deleteItemButton;
     QMenuBar *menuBar;
-    QMenu *menuFile;
     QMenu *menuEdit;
     QMenu *menuCreate;
     QMenu *menuTools;
+    QMenu *menuFile;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -511,14 +511,14 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 600, 20));
-        menuFile = new QMenu(menuBar);
-        menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuEdit = new QMenu(menuBar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuCreate = new QMenu(menuBar);
         menuCreate->setObjectName(QString::fromUtf8("menuCreate"));
         menuTools = new QMenu(menuBar);
         menuTools->setObjectName(QString::fromUtf8("menuTools"));
+        menuFile = new QMenu(menuBar);
+        menuFile->setObjectName(QString::fromUtf8("menuFile"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -531,14 +531,6 @@ public:
         menuBar->addAction(menuEdit->menuAction());
         menuBar->addAction(menuCreate->menuAction());
         menuBar->addAction(menuTools->menuAction());
-        menuFile->addAction(actionNew);
-        menuFile->addAction(actionOpen);
-        menuFile->addAction(actionSave);
-        menuFile->addAction(actionClose);
-        menuFile->addSeparator();
-        menuFile->addAction(actionRecent_Files);
-        menuFile->addAction(actionExport);
-        menuFile->addAction(actionExit);
         menuEdit->addAction(actionCopy);
         menuEdit->addAction(actionPaste);
         menuEdit->addAction(actionModify);
@@ -550,6 +542,13 @@ public:
         menuCreate->addAction(actionTag);
         menuTools->addAction(actionPreferences);
         menuTools->addAction(actionAbout);
+        menuFile->addAction(actionNew);
+        menuFile->addAction(actionOpen);
+        menuFile->addAction(actionClose);
+        menuFile->addSeparator();
+        menuFile->addAction(actionRecent_Files);
+        menuFile->addAction(actionExport);
+        menuFile->addAction(actionExit);
 
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
@@ -667,10 +666,10 @@ public:
         modifyItemButton->setText(QApplication::translate("MainWindow", "Modify item", 0, QApplication::UnicodeUTF8));
         deleteItemButton->setText(QApplication::translate("MainWindow", "Delete item", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(itemsTab), QApplication::translate("MainWindow", "Items", 0, QApplication::UnicodeUTF8));
-        menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0, QApplication::UnicodeUTF8));
         menuCreate->setTitle(QApplication::translate("MainWindow", "Create", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
+        menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
