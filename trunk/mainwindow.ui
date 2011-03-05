@@ -68,16 +68,16 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <widget class="QLabel" name="label_6">
+              <widget class="QLabel" name="label_LatestModification">
                <property name="text">
                 <string>Latest database modification: </string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_7">
+              <widget class="QLabel" name="label_Program_version">
                <property name="text">
-                <string>Program version</string>
+                <string>Program version </string>
                </property>
               </widget>
              </item>
