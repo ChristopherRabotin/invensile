@@ -23,18 +23,30 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
+ // slots: signature, parameters, type, tag, flags
+      12,   11,   11,   11, 0x0a,
+      20,   11,   11,   11, 0x0a,
+      29,   11,   11,   11, 0x0a,
+      39,   11,   11,   11, 0x0a,
+      57,   11,   11,   11, 0x0a,
+      66,   11,   11,   11, 0x0a,
+      75,   11,   11,   11, 0x0a,
+      89,   11,   11,   11, 0x0a,
+
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0"
+    "MainWindow\0\0newDb()\0openDb()\0closeDb()\0"
+    "exportInventory()\0modify()\0create()\0"
+    "preferences()\0about()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -64,6 +76,20 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     _id = QMainWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        switch (_id) {
+        case 0: newDb(); break;
+        case 1: openDb(); break;
+        case 2: closeDb(); break;
+        case 3: exportInventory(); break;
+        case 4: modify(); break;
+        case 5: create(); break;
+        case 6: preferences(); break;
+        case 7: about(); break;
+        default: ;
+        }
+        _id -= 8;
+    }
     return _id;
 }
 QT_END_MOC_NAMESPACE
