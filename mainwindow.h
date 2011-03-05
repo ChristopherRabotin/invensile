@@ -10,6 +10,8 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QStringList>
+#include <QSqlTableModel>
+
 #define VERSION 0.1
 
 namespace Ui {
@@ -26,10 +28,15 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    // variables
     Ui::MainWindow *ui;
     QSqlDatabase db;
-    QSqlQuery query;
-    bool execQuery(QString query);
+    QSqlQuery *latestQuery;
+    QSqlTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel;
+    // functions and methods
+    bool execMQueries(QString query);
+    void onDbLoad();
+    void sqlErrorMsg(QString query, QSqlError error);
 
 public slots:
     /* File slots */

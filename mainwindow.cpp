@@ -31,17 +31,53 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-bool MainWindow::execQuery(QString query)
+/**
+ * This function allows for debugguing and notifying the user something wrong happened while executing an SQL operation.
+ */
+void MainWindow::sqlErrorMsg(QString query, QSqlError error){
+    qDebug() << "<" << QDate::currentDate() << "> Error in SQL query execution: [" << query << "]\n Message is {"<< error.text() <<"}";
+    QMessageBox::critical(this,tr("Error in SQL query!"),tr("There was an error while trying to execution a query. Please report a bug by including the debug message."));
+}
+
+/**
+ * This function shall be called while executing multiple SQL queries in a row.
+ * @return bool
+ */
+bool MainWindow::execMQueries(QString query)
 {
     QSqlQuery q;
     bool rtn = q.exec(query);
     if(!rtn){
-        QSqlError error = q.lastError();
-        qDebug() << "<" << QDate::currentDate() << "> Error in SQL query execution: [" << query << "]\n Message is {"<< error.text() <<"}";
-        QMessageBox::critical(this,tr("Error in SQL query!"),tr("There was an error while trying to execution a query. Please report a bug by including the debug message."));
+        sqlErrorMsg(query, q.lastError());
         return rtn;
     }
     return rtn;
+}
+
+/**
+ * This function is called once a database file has been opened or is created.
+ * It loads the central widget and the SQL model.
+ */
+void MainWindow::onDbLoad()
+{
+    QSqlQuery q(db);
+    qDebug() << "here";
+    if(!q.exec("SELECT data FROM information WHERE name = 'program_version'")){
+        sqlErrorMsg("Program version query", q.lastError());
+    }else{
+        qDebug() << "error = [" << q.next() << "] (" << q.value(0) <<")";
+        ui->label_Program_version->setText(ui->label_Program_version->text()+q.value(0).toString());
+    }
+    if(!q.exec("SELECT data FROM information WHERE name = 'latest_modification_date'")){
+        sqlErrorMsg("Latest modification query", q.lastError());
+    }else{
+        qDebug() << "error = [" << q.next() << "]";
+        ui->label_LatestModification->setText(ui->label_LatestModification->text()+q.value(0).toString());
+    }
+
+    ui->centralWidget->show();
+    ui->actionClose->setEnabled(true);
+    /* Defining the models */
 }
 
 void MainWindow::newDb()
@@ -63,18 +99,21 @@ void MainWindow::newDb()
     qList.append("CREATE TABLE 'information' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' varchar(10) NOT NULL UNIQUE , 'data' TEXT NOT NULL check(typeof('data') = 'text') )");
     qList.append("CREATE TABLE 'locations' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'ref' VARCHAR(10) NOT NULL UNIQUE , 'name' VARCHAR(20) NOT NULL UNIQUE , 'creationdate' DATETIME NOT NULL , 'closingdate' DATETIME NOT NULL , 'accessdate' DATETIME NOT NULL DEFAULT CURRENT_DATE, 'description' TEXT NOT NULL , address_id INTEGER NOT NULL, FOREIGN KEY(address_id) REFERENCES addresses(id))");
     qList.append("CREATE TABLE 'items' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'ref' VARCHAR(20) NOT NULL UNIQUE , 'name' VARCHAR(50) NOT NULL UNIQUE , 'entrydate' DATETIME NOT NULL , 'recorddate' DATETIME NOT NULL , 'description' TEXT NOT NULL , 'accessdate' DATETIME NOT NULL DEFAULT CURRENT_DATE, 'qrcode' BLOB, 'location' INTEGER NOT NULL, FOREIGN KEY(location) REFERENCES locations(id) )");
-    qList.append("INSERT INTO 'status' (name, fgcolor) VALUES ('valid','00aa00'); INSERT INTO 'status' (name,fgcolor) VALUES ('Destroyed','777777'); INSERT INTO 'status' (name, bgcolor, fgcolor) VALUES ('Lost','ff0000','000000');");
-    qList.append("INSERT INTO 'information' (name,data) VALUES ('program_version','VERSION'); INSERT INTO 'information' (name,data) VALUES ('latest_access_date','date(\"now\")'); INSERT INTO 'information' VALUES ('','latest_modification_date','date(\"now\")'); ");
+    qList.append("INSERT INTO 'status' (name, fgcolor) VALUES ('valid','00aa00')");
+    qList.append("INSERT INTO 'status' (name, fgcolor) VALUES ('Destroyed','777777')");
+    qList.append("INSERT INTO 'status' (name, bgcolor, fgcolor) VALUES ('Lost','ff0000','000000')");
     /* to use color: QColor::name() , get the value and prepend with '#' */
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('program_version','0.1')");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_access_date',date('now'))");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_modification_date',date('now')); ");
     /* Execute the queries. */
     bool isStillValid = true;
     QStringListIterator qListIt(qList);
     while(isStillValid && qListIt.hasNext()){
-        isStillValid = execQuery(qListIt.next());
+        isStillValid = execMQueries(qListIt.next());
     }
     if (isStillValid){
-        ui->centralWidget->show();
-        ui->actionClose->setEnabled(true);
+        onDbLoad();
     }
 }
 void MainWindow::openDb()
@@ -93,11 +132,10 @@ void MainWindow::openDb()
     bool isStillValid = true;
     QStringListIterator qListIt(qList);
     while(isStillValid && qListIt.hasNext()){
-        isStillValid = execQuery(qListIt.next());
+        isStillValid = execMQueries(qListIt.next());
     }
     if (isStillValid){
-        ui->centralWidget->show();
-        ui->actionClose->setEnabled(true);
+       onDbLoad();
     }
 }
 void MainWindow::closeDb()

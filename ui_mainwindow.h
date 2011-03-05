@@ -68,8 +68,8 @@ public:
     QGroupBox *dbInfoBox;
     QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *verticalLayout_6;
-    QLabel *label_6;
-    QLabel *label_7;
+    QLabel *label_LatestModification;
+    QLabel *label_Program_version;
     QWidget *searchTab;
     QWidget *tagsTab;
     QVBoxLayout *verticalLayout_2;
@@ -229,15 +229,15 @@ public:
         verticalLayout_6 = new QVBoxLayout();
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
-        label_6 = new QLabel(dbInfoBox);
-        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_LatestModification = new QLabel(dbInfoBox);
+        label_LatestModification->setObjectName(QString::fromUtf8("label_LatestModification"));
 
-        verticalLayout_6->addWidget(label_6);
+        verticalLayout_6->addWidget(label_LatestModification);
 
-        label_7 = new QLabel(dbInfoBox);
-        label_7->setObjectName(QString::fromUtf8("label_7"));
+        label_Program_version = new QLabel(dbInfoBox);
+        label_Program_version->setObjectName(QString::fromUtf8("label_Program_version"));
 
-        verticalLayout_6->addWidget(label_7);
+        verticalLayout_6->addWidget(label_Program_version);
 
 
         horizontalLayout_6->addLayout(verticalLayout_6);
@@ -629,8 +629,8 @@ public:
         pushButton->setText(QApplication::translate("MainWindow", "Mark as correct", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
         dbInfoBox->setTitle(QApplication::translate("MainWindow", "Database Information", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("MainWindow", "Latest database modification: ", 0, QApplication::UnicodeUTF8));
-        label_7->setText(QApplication::translate("MainWindow", "Program version", 0, QApplication::UnicodeUTF8));
+        label_LatestModification->setText(QApplication::translate("MainWindow", "Latest database modification: ", 0, QApplication::UnicodeUTF8));
+        label_Program_version->setText(QApplication::translate("MainWindow", "Program version ", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(informationTab), QApplication::translate("MainWindow", "Information", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(searchTab), QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
