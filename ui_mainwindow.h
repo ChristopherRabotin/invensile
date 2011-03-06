@@ -25,7 +25,6 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableView>
-#include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
@@ -55,7 +54,7 @@ public:
     QVBoxLayout *verticalLayout_9;
     QTabWidget *tabWidget;
     QWidget *informationTab;
-    QVBoxLayout *verticalLayout_10;
+    QVBoxLayout *verticalLayout_11;
     QGroupBox *followUpBox;
     QVBoxLayout *verticalLayout_8;
     QVBoxLayout *verticalLayout_7;
@@ -63,14 +62,9 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
-    QGroupBox *dbInfoBox;
     QHBoxLayout *horizontalLayout_6;
-    QVBoxLayout *verticalLayout_6;
-    QLabel *label_LatestModification;
-    QLabel *label_Program_version;
-    QWidget *searchTab;
-    QWidget *tagsTab;
-    QVBoxLayout *verticalLayout_2;
+    QGroupBox *groupBox;
+    QVBoxLayout *verticalLayout_10;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label;
     QLineEdit *filterTagsEdit;
@@ -79,16 +73,17 @@ public:
     QPushButton *newTagButton;
     QPushButton *modifyTagButton;
     QPushButton *deleteTagButton;
-    QWidget *tab;
-    QVBoxLayout *verticalLayout_5;
+    QGroupBox *groupBox_2;
+    QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_3;
     QLineEdit *filterStatusesEdit;
-    QTableWidget *statusesView;
+    QTableView *statusesView;
     QHBoxLayout *horizontalLayout_10;
     QPushButton *newStatusButton;
     QPushButton *modifyStatusButton;
     QPushButton *deleteStatusButton;
+    QWidget *searchTab;
     QWidget *addressesTab;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_8;
@@ -131,7 +126,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(600, 400);
+        MainWindow->resize(900, 600);
         actionNew = new QAction(MainWindow);
         actionNew->setObjectName(QString::fromUtf8("actionNew"));
         actionOpen = new QAction(MainWindow);
@@ -176,10 +171,10 @@ public:
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         informationTab = new QWidget();
         informationTab->setObjectName(QString::fromUtf8("informationTab"));
-        verticalLayout_10 = new QVBoxLayout(informationTab);
-        verticalLayout_10->setSpacing(6);
-        verticalLayout_10->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
+        verticalLayout_11 = new QVBoxLayout(informationTab);
+        verticalLayout_11->setSpacing(6);
+        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_11->setObjectName(QString::fromUtf8("verticalLayout_11"));
         followUpBox = new QGroupBox(informationTab);
         followUpBox->setObjectName(QString::fromUtf8("followUpBox"));
         verticalLayout_8 = new QVBoxLayout(followUpBox);
@@ -214,135 +209,120 @@ public:
         verticalLayout_8->addLayout(verticalLayout_7);
 
 
-        verticalLayout_10->addWidget(followUpBox);
+        verticalLayout_11->addWidget(followUpBox);
 
-        dbInfoBox = new QGroupBox(informationTab);
-        dbInfoBox->setObjectName(QString::fromUtf8("dbInfoBox"));
-        horizontalLayout_6 = new QHBoxLayout(dbInfoBox);
+        horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setSpacing(6);
-        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
-        label_LatestModification = new QLabel(dbInfoBox);
-        label_LatestModification->setObjectName(QString::fromUtf8("label_LatestModification"));
-
-        verticalLayout_6->addWidget(label_LatestModification);
-
-        label_Program_version = new QLabel(dbInfoBox);
-        label_Program_version->setObjectName(QString::fromUtf8("label_Program_version"));
-
-        verticalLayout_6->addWidget(label_Program_version);
-
-
-        horizontalLayout_6->addLayout(verticalLayout_6);
-
-
-        verticalLayout_10->addWidget(dbInfoBox);
-
-        tabWidget->addTab(informationTab, QString());
-        searchTab = new QWidget();
-        searchTab->setObjectName(QString::fromUtf8("searchTab"));
-        tabWidget->addTab(searchTab, QString());
-        tagsTab = new QWidget();
-        tagsTab->setObjectName(QString::fromUtf8("tagsTab"));
-        verticalLayout_2 = new QVBoxLayout(tagsTab);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        groupBox = new QGroupBox(informationTab);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        verticalLayout_10 = new QVBoxLayout(groupBox);
+        verticalLayout_10->setSpacing(6);
+        verticalLayout_10->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        label = new QLabel(tagsTab);
+        label = new QLabel(groupBox);
         label->setObjectName(QString::fromUtf8("label"));
 
         horizontalLayout_4->addWidget(label);
 
-        filterTagsEdit = new QLineEdit(tagsTab);
+        filterTagsEdit = new QLineEdit(groupBox);
         filterTagsEdit->setObjectName(QString::fromUtf8("filterTagsEdit"));
 
         horizontalLayout_4->addWidget(filterTagsEdit);
 
 
-        verticalLayout_2->addLayout(horizontalLayout_4);
+        verticalLayout_10->addLayout(horizontalLayout_4);
 
-        tagsView = new QTableView(tagsTab);
+        tagsView = new QTableView(groupBox);
         tagsView->setObjectName(QString::fromUtf8("tagsView"));
 
-        verticalLayout_2->addWidget(tagsView);
+        verticalLayout_10->addWidget(tagsView);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        newTagButton = new QPushButton(tagsTab);
+        newTagButton = new QPushButton(groupBox);
         newTagButton->setObjectName(QString::fromUtf8("newTagButton"));
 
         horizontalLayout->addWidget(newTagButton);
 
-        modifyTagButton = new QPushButton(tagsTab);
+        modifyTagButton = new QPushButton(groupBox);
         modifyTagButton->setObjectName(QString::fromUtf8("modifyTagButton"));
 
         horizontalLayout->addWidget(modifyTagButton);
 
-        deleteTagButton = new QPushButton(tagsTab);
+        deleteTagButton = new QPushButton(groupBox);
         deleteTagButton->setObjectName(QString::fromUtf8("deleteTagButton"));
 
         horizontalLayout->addWidget(deleteTagButton);
 
 
-        verticalLayout_2->addLayout(horizontalLayout);
+        verticalLayout_10->addLayout(horizontalLayout);
 
-        tabWidget->addTab(tagsTab, QString());
-        tab = new QWidget();
-        tab->setObjectName(QString::fromUtf8("tab"));
-        verticalLayout_5 = new QVBoxLayout(tab);
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+
+        horizontalLayout_6->addWidget(groupBox);
+
+        groupBox_2 = new QGroupBox(informationTab);
+        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
+        verticalLayout_6 = new QVBoxLayout(groupBox_2);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setSpacing(6);
         horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
-        label_3 = new QLabel(tab);
+        label_3 = new QLabel(groupBox_2);
         label_3->setObjectName(QString::fromUtf8("label_3"));
 
         horizontalLayout_9->addWidget(label_3);
 
-        filterStatusesEdit = new QLineEdit(tab);
+        filterStatusesEdit = new QLineEdit(groupBox_2);
         filterStatusesEdit->setObjectName(QString::fromUtf8("filterStatusesEdit"));
 
         horizontalLayout_9->addWidget(filterStatusesEdit);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_9);
+        verticalLayout_6->addLayout(horizontalLayout_9);
 
-        statusesView = new QTableWidget(tab);
+        statusesView = new QTableView(groupBox_2);
         statusesView->setObjectName(QString::fromUtf8("statusesView"));
 
-        verticalLayout_5->addWidget(statusesView);
+        verticalLayout_6->addWidget(statusesView);
 
         horizontalLayout_10 = new QHBoxLayout();
         horizontalLayout_10->setSpacing(6);
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
-        newStatusButton = new QPushButton(tab);
+        newStatusButton = new QPushButton(groupBox_2);
         newStatusButton->setObjectName(QString::fromUtf8("newStatusButton"));
 
         horizontalLayout_10->addWidget(newStatusButton);
 
-        modifyStatusButton = new QPushButton(tab);
+        modifyStatusButton = new QPushButton(groupBox_2);
         modifyStatusButton->setObjectName(QString::fromUtf8("modifyStatusButton"));
 
         horizontalLayout_10->addWidget(modifyStatusButton);
 
-        deleteStatusButton = new QPushButton(tab);
+        deleteStatusButton = new QPushButton(groupBox_2);
         deleteStatusButton->setObjectName(QString::fromUtf8("deleteStatusButton"));
 
         horizontalLayout_10->addWidget(deleteStatusButton);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_10);
+        verticalLayout_6->addLayout(horizontalLayout_10);
 
-        tabWidget->addTab(tab, QString());
+
+        horizontalLayout_6->addWidget(groupBox_2);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_6);
+
+        tabWidget->addTab(informationTab, QString());
+        searchTab = new QWidget();
+        searchTab->setObjectName(QString::fromUtf8("searchTab"));
+        tabWidget->addTab(searchTab, QString());
         addressesTab = new QWidget();
         addressesTab->setObjectName(QString::fromUtf8("addressesTab"));
         verticalLayout_4 = new QVBoxLayout(addressesTab);
@@ -506,7 +486,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 20));
+        menuBar->setGeometry(QRect(0, 0, 900, 20));
         menuEdit = new QMenu(menuBar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuCreate = new QMenu(menuBar);
@@ -618,11 +598,7 @@ public:
         followUpBox->setTitle(QApplication::translate("MainWindow", "Follow ups", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Mark as correct", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
-        dbInfoBox->setTitle(QApplication::translate("MainWindow", "Database Information", 0, QApplication::UnicodeUTF8));
-        label_LatestModification->setText(QApplication::translate("MainWindow", "Latest database modification: ", 0, QApplication::UnicodeUTF8));
-        label_Program_version->setText(QApplication::translate("MainWindow", "Program version ", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(informationTab), QApplication::translate("MainWindow", "Information", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(searchTab), QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Tags", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         label->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
@@ -630,7 +606,7 @@ public:
         newTagButton->setText(QApplication::translate("MainWindow", "New tag", 0, QApplication::UnicodeUTF8));
         modifyTagButton->setText(QApplication::translate("MainWindow", "Modify tag", 0, QApplication::UnicodeUTF8));
         deleteTagButton->setText(QApplication::translate("MainWindow", "Delete tag", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tagsTab), QApplication::translate("MainWindow", "Tags", 0, QApplication::UnicodeUTF8));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Statuses", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         label_3->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
@@ -638,7 +614,8 @@ public:
         newStatusButton->setText(QApplication::translate("MainWindow", "New status", 0, QApplication::UnicodeUTF8));
         modifyStatusButton->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
         deleteStatusButton->setText(QApplication::translate("MainWindow", "Delete status", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Statuses", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(informationTab), QApplication::translate("MainWindow", "Information", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(searchTab), QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Filter addresses", 0, QApplication::UnicodeUTF8));
         newAddressButton->setText(QApplication::translate("MainWindow", "New address", 0, QApplication::UnicodeUTF8));
         viewAddressItemsButton->setText(QApplication::translate("MainWindow", "View address items", 0, QApplication::UnicodeUTF8));
