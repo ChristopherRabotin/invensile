@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -31,14 +31,15 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x0a,
-      20,   11,   11,   11, 0x0a,
-      29,   11,   11,   11, 0x0a,
-      39,   11,   11,   11, 0x0a,
-      57,   11,   11,   11, 0x0a,
-      66,   11,   11,   11, 0x0a,
-      75,   11,   11,   11, 0x0a,
-      89,   11,   11,   11, 0x0a,
+      12,   11,   11,   11, 0x08,
+      20,   11,   11,   11, 0x08,
+      29,   11,   11,   11, 0x08,
+      39,   11,   11,   11, 0x08,
+      57,   11,   11,   11, 0x08,
+      66,   11,   11,   11, 0x08,
+      75,   11,   11,   11, 0x08,
+      89,   11,   11,   11, 0x08,
+      97,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -46,7 +47,7 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0newDb()\0openDb()\0closeDb()\0"
     "exportInventory()\0modify()\0create()\0"
-    "preferences()\0about()\0"
+    "preferences()\0about()\0filterView(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -86,9 +87,10 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 5: create(); break;
         case 6: preferences(); break;
         case 7: about(); break;
+        case 8: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

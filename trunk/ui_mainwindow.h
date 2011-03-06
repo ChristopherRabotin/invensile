@@ -76,7 +76,7 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QLabel *label;
     QLineEdit *filterTagsEdit;
-    QTableWidget *tagView;
+    QTableView *tagsView;
     QHBoxLayout *horizontalLayout;
     QPushButton *newTagButton;
     QPushButton *modifyTagButton;
@@ -96,7 +96,7 @@ public:
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_2;
     QLineEdit *filterAddressEdit;
-    QTableWidget *tableWidget_3;
+    QTableView *addressesView;
     QHBoxLayout *horizontalLayout_7;
     QPushButton *newAddressButton;
     QPushButton *viewAddressItemsButton;
@@ -118,7 +118,7 @@ public:
     QHBoxLayout *horizontalLayout_11;
     QLabel *label_4;
     QLineEdit *filterItemsEdit;
-    QTableView *tableView_2;
+    QTableView *itemsView;
     QHBoxLayout *horizontalLayout_5;
     QPushButton *newItemButton;
     QPushButton *modifyItemButton;
@@ -271,10 +271,10 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_4);
 
-        tagView = new QTableWidget(tagsTab);
-        tagView->setObjectName(QString::fromUtf8("tagView"));
+        tagsView = new QTableView(tagsTab);
+        tagsView->setObjectName(QString::fromUtf8("tagsView"));
 
-        verticalLayout_2->addWidget(tagView);
+        verticalLayout_2->addWidget(tagsView);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -369,10 +369,10 @@ public:
 
         verticalLayout_4->addLayout(horizontalLayout_8);
 
-        tableWidget_3 = new QTableWidget(addressesTab);
-        tableWidget_3->setObjectName(QString::fromUtf8("tableWidget_3"));
+        addressesView = new QTableView(addressesTab);
+        addressesView->setObjectName(QString::fromUtf8("addressesView"));
 
-        verticalLayout_4->addWidget(tableWidget_3);
+        verticalLayout_4->addWidget(addressesView);
 
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setSpacing(6);
@@ -477,10 +477,10 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout_11);
 
-        tableView_2 = new QTableView(itemsTab);
-        tableView_2->setObjectName(QString::fromUtf8("tableView_2"));
+        itemsView = new QTableView(itemsTab);
+        itemsView->setObjectName(QString::fromUtf8("itemsView"));
 
-        verticalLayout_3->addWidget(tableView_2);
+        verticalLayout_3->addWidget(itemsView);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
@@ -553,7 +553,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
