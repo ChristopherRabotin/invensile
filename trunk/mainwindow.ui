@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        <attribute name="title">
         <string>Information</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_10">
+       <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
          <widget class="QGroupBox" name="followUpBox">
           <property name="title">
@@ -60,31 +60,116 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="dbInfoBox">
-          <property name="title">
-           <string>Database Information</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Tags</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
-              <widget class="QLabel" name="label_LatestModification">
-               <property name="text">
-                <string>Latest database modification: </string>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string>Filter tags</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="filterTagsEdit"/>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label_Program_version">
-               <property name="text">
-                <string>Program version </string>
-               </property>
-              </widget>
+              <widget class="QTableView" name="tagsView"/>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QPushButton" name="newTagButton">
+                 <property name="text">
+                  <string>New tag</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="modifyTagButton">
+                 <property name="text">
+                  <string>Modify tag</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="deleteTagButton">
+                 <property name="text">
+                  <string>Delete tag</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
-           </item>
-          </layout>
-         </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string>Statuses</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="toolTip">
+                  <string/>
+                 </property>
+                 <property name="text">
+                  <string>Filter statuses</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="filterStatusesEdit"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QTableView" name="statusesView"/>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <item>
+                <widget class="QPushButton" name="newStatusButton">
+                 <property name="text">
+                  <string>New status</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="modifyStatusButton">
+                 <property name="text">
+                  <string>Modify status</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="deleteStatusButton">
+                 <property name="text">
+                  <string>Delete status</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -92,110 +177,6 @@
        <attribute name="title">
         <string>Search</string>
        </attribute>
-      </widget>
-      <widget class="QWidget" name="tagsTab">
-       <attribute name="title">
-        <string>Tags</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Filter tags</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="filterTagsEdit"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableView" name="tagsView"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="newTagButton">
-            <property name="text">
-             <string>New tag</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="modifyTagButton">
-            <property name="text">
-             <string>Modify tag</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="deleteTagButton">
-            <property name="text">
-             <string>Delete tag</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Statuses</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Filter statuses</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="filterStatusesEdit"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="statusesView"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <item>
-           <widget class="QPushButton" name="newStatusButton">
-            <property name="text">
-             <string>New status</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="modifyStatusButton">
-            <property name="text">
-             <string>Modify status</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="deleteStatusButton">
-            <property name="text">
-             <string>Delete status</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
       </widget>
       <widget class="QWidget" name="addressesTab">
        <attribute name="title">
@@ -367,7 +348,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>900</width>
      <height>20</height>
     </rect>
    </property>

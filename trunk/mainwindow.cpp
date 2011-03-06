@@ -74,7 +74,7 @@ bool MainWindow::execMQueries(QString query)
  */
 void MainWindow::onDbLoad()
 {
-    QSqlQuery q;
+    /*QSqlQuery q;
     if(!q.exec("SELECT id,data FROM information WHERE name = 'program_version'")){
         sqlErrorMsg("Program version query", q.lastError());
     }else{
@@ -84,7 +84,7 @@ void MainWindow::onDbLoad()
         sqlErrorMsg("Latest modification query", q.lastError());
     }else{
         ui->label_LatestModification->setText(ui->label_LatestModification->text()+q.value(1).toString());
-    }
+    }*/
 
     ui->centralWidget->show();
     ui->actionClose->setEnabled(true);
@@ -94,59 +94,70 @@ void MainWindow::onDbLoad()
     itemModel->setTable("items");
     itemModel->setEditStrategy(QSqlTableModel::OnRowChange);
     itemModel->setRelation(8,QSqlRelation("locations","id","name"));
-    /*itemModel->removeColumns(3,4); // don't show the ID, record date, description, accessdate and qrcode
-    itemModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
-    itemModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    itemModel->setHeaderData(2, Qt::Horizontal, tr("Entry date"));
-    itemModel->setHeaderData(3, Qt::Horizontal, tr("Location name"));*/
-    //ui->itemsView->setColumnHidden(0,true); // hide the ID
+    itemModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    itemModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
+    itemModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
+    itemModel->setHeaderData(3, Qt::Horizontal, tr("Entry date"));
+    itemModel->setHeaderData(4, Qt::Horizontal, tr("Record date"));
+    itemModel->setHeaderData(5, Qt::Horizontal, tr("Description"));
+    itemModel->setHeaderData(6, Qt::Horizontal, tr("Access date"));
+    itemModel->setHeaderData(7, Qt::Horizontal, tr("QR Code"));
+    itemModel->setHeaderData(8, Qt::Horizontal, tr("Address"));
     itemModel->select();
     ui->itemsView->setItemDelegate(new QSqlRelationalDelegate(ui->itemsView));
     ui->itemsView->setModel(itemModel);
-    ui->itemsView->setColumnHidden(0,true);
+    ui->itemsView->setColumnHidden(0,true); // hide the ID column
     /* Location Model and view */
     locationModel = new QSqlRelationalTableModel(this, db);
     locationModel->setTable("locations");
     locationModel->setEditStrategy(QSqlTableModel::OnRowChange);
     locationModel->select();
     locationModel->setRelation(7,QSqlRelation("addresses","id","name"));
-    locationModel->removeColumn(0);
-    locationModel->removeColumns(4,2); // don't show the description and accessdate
-    locationModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
-    locationModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    locationModel->setHeaderData(2, Qt::Horizontal, tr("Creation date"));
-    locationModel->setHeaderData(3, Qt::Horizontal, tr("Closing date"));
-    locationModel->setHeaderData(4, Qt::Horizontal, tr("Address name"));
+    locationModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    locationModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
+    locationModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
+    locationModel->setHeaderData(3, Qt::Horizontal, tr("Creation date"));
+    locationModel->setHeaderData(4, Qt::Horizontal, tr("Closing date"));
+    locationModel->setHeaderData(5, Qt::Horizontal, tr("Access date"));
+    locationModel->setHeaderData(6, Qt::Horizontal, tr("Description"));
+    locationModel->setHeaderData(7, Qt::Horizontal, tr("Address"));
     ui->locationsView->setItemDelegate(new QSqlRelationalDelegate(ui->locationsView));
     ui->locationsView->setModel(locationModel);
+    ui->locationsView->setColumnHidden(0,true); // hide the ID column
     /* Address Model and view */
     addressModel = new QSqlRelationalTableModel(this, db);
     addressModel->setTable("addresses");
     addressModel->setEditStrategy(QSqlTableModel::OnRowChange);
     addressModel->select();
-    addressModel->removeColumn(0);
-    addressModel->removeColumns(1,4); // don't show anything but the name and reference
-    addressModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
-    addressModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    addressModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    addressModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    addressModel->setHeaderData(2, Qt::Horizontal, tr("Country"));
+    addressModel->setHeaderData(3, Qt::Horizontal, tr("Town"));
+    addressModel->setHeaderData(4, Qt::Horizontal, tr("Postal code"));
+    addressModel->setHeaderData(5, Qt::Horizontal, tr("Street"));
+    addressModel->setHeaderData(6, Qt::Horizontal, tr("Reference"));
     ui->addressesView->setModel(addressModel);
+    ui->addressesView->setColumnHidden(0,true); // hide the ID column
     /* Tag Model and view */
     tagModel = new QSqlRelationalTableModel(this, db);
     tagModel->setTable("tags");
     tagModel->setEditStrategy(QSqlTableModel::OnRowChange);
     tagModel->select();
-    tagModel->removeColumn(0); // don't show the ID
-    tagModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    tagModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    tagModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     ui->tagsView->setModel(tagModel);
+    ui->tagsView->setColumnHidden(0,true); // hide the ID column
     /* Status Model and view */
     statusModel = new QSqlRelationalTableModel(this, db);
     statusModel->setTable("statuses");
     statusModel->setEditStrategy(QSqlTableModel::OnRowChange);
     statusModel->select();
-    statusModel->removeColumn(0); // don't show the ID
-    statusModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
-    // TODO FIND WHY THE FOLLOWING LINE CAN'T COMPILE:
-    // virtual function setModel private within this context.
-    //ui->statusesView->setModel(statusModel);
+    statusModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    statusModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    statusModel->setHeaderData(2, Qt::Horizontal, tr("Background color"));
+    statusModel->setHeaderData(3, Qt::Horizontal, tr("Foreground color"));
+    ui->statusesView->setModel(statusModel);
+    ui->statusesView->setColumnHidden(0,true); // hide the ID column
 }
 
 void MainWindow::newDb()
@@ -163,20 +174,21 @@ void MainWindow::newDb()
     QStringList qList;
     qList.append("PRAGMA foreignkey = ON");
     qList.append("CREATE TABLE 'tags' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' VARCHAR(20) NOT NULL )");
-    qList.append("CREATE TABLE 'status' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' VARCHAR(50) NOT NULL UNIQUE , 'bgcolor' VARCHAR(6) NOT NULL DEFAULT ffffff, 'fgcolor' VARCHAR(6) NOT NULL DEFAULT 000000)");
+    qList.append("CREATE TABLE 'statuses' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' VARCHAR(50) NOT NULL UNIQUE , 'bgcolor' VARCHAR(6) NOT NULL DEFAULT ffffff, 'fgcolor' VARCHAR(6) NOT NULL DEFAULT 000000)");
     qList.append("CREATE TABLE 'addresses' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' VARCHAR(50) NOT NULL UNIQUE , 'country' VARCHAR(25), 'town' VARCHAR(50), 'postal_code' VARCHAR(10), 'street' TEXT check(typeof('street') = 'text') , 'ref' VARCHAR(5) NOT NULL )");
     qList.append("CREATE TABLE 'information' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'name' varchar(10) NOT NULL UNIQUE , 'data' TEXT NOT NULL check(typeof('data') = 'text') )");
     qList.append("CREATE TABLE 'locations' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'ref' VARCHAR(10) NOT NULL UNIQUE , 'name' VARCHAR(20) NOT NULL UNIQUE , 'creationdate' DATETIME NOT NULL , 'closingdate' DATETIME NOT NULL , 'accessdate' DATETIME NOT NULL DEFAULT CURRENT_DATE, 'description' TEXT NOT NULL , address_id INTEGER NOT NULL, FOREIGN KEY(address_id) REFERENCES addresses(id))");
     qList.append("CREATE TABLE 'items' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'ref' VARCHAR(20) NOT NULL UNIQUE , 'name' VARCHAR(50) NOT NULL UNIQUE , 'entrydate' DATETIME NOT NULL , 'recorddate' DATETIME NOT NULL , 'description' TEXT NOT NULL , 'accessdate' DATETIME NOT NULL DEFAULT CURRENT_DATE, 'qrcode' BLOB, 'location_id' INTEGER NOT NULL, FOREIGN KEY(location_id) REFERENCES locations(id) )");
     qList.append("CREATE TABLE 'tag_item_links' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'tag_id' INTEGER NOT NULL, 'item_id' INTEGER NOT NULL, FOREIGN KEY(item_id) REFERENCES items(id))");
     qList.append("CREATE TABLE 'tag_location_links' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , 'tag_id' INTEGER NOT NULL, 'location_id' INTEGER NOT NULL, FOREIGN KEY(location_id) REFERENCES locations(id))");
-    qList.append("INSERT INTO 'status' (name, fgcolor) VALUES ('Valid','00aa00')");
-    qList.append("INSERT INTO 'status' (name, fgcolor) VALUES ('Destroyed','777777')");
-    qList.append("INSERT INTO 'status' (name, bgcolor, fgcolor) VALUES ('Lost','ff0000','000000')");
+    qList.append("INSERT INTO 'statuses' (name, fgcolor) VALUES ('Valid','00aa00')");
+    qList.append("INSERT INTO 'statuses' (name, fgcolor) VALUES ('Destroyed','777777')");
+    qList.append("INSERT INTO 'statuses' (name, bgcolor, fgcolor) VALUES ('Lost','ff0000','000000')");
     /* to use color: QColor::name() , get the value and prepend with '#' */
-    qList.append("INSERT INTO 'information' (name,data) VALUES ('program_version','0.1')");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('database_version','0.1')");
     qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_access_date',date('now'))");
-    qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_modification_date',date('now')); ");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_modification_date',date('now'));");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('creation_date',date('now'));");
     /* Execute the queries. */
     bool isStillValid = true;
     QStringListIterator qListIt(qList);
@@ -242,7 +254,7 @@ void MainWindow::about()
 }
 
 void MainWindow::filterView(int filterNumber){
-    QString name; QSqlTableModel *model; QString filter, filterQuery = ""; QStringList query;
+    QString name; QSqlRelationalTableModel *model; QString filter, filterQuery = ""; QStringList query;
     switch(filterNumber){
     case 0:
         name = "addresses"; model = addressModel; filter = ui->filterAddressEdit->text();
@@ -266,14 +278,19 @@ void MainWindow::filterView(int filterNumber){
         break;
     }
 
+    /* The following line prevent SQL injections */
+    filter.replace("'","\'");
     QStringListIterator qIt(query);
     while(qIt.hasNext()){
-        filterQuery.append(qIt.next()+ " LIKE '%"+filter+"%' OR ");
+        filterQuery.append(name+"."+qIt.next()+ " LIKE '%"+filter+"%' OR ");
     }
     filterQuery.chop(3); // remove the trailing 'OR '
+//    filterQuery = "ref LIKE %";
 #ifdef DEBUG
     qDebug() << "Filtering"<< name << "with [" << filterQuery << "]";
 #endif
-    model->setFilter(filterQuery);
-
+    model->setFilter(filterQuery);;
+#ifdef DEBUG
+    qDebug() << "Error [" << model->query().lastError().text() << "]";
+#endif
 }
