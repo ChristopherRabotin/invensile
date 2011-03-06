@@ -74,7 +74,7 @@ bool MainWindow::execMQueries(QString query)
  */
 void MainWindow::onDbLoad()
 {
-    QSqlQuery q(db);
+    QSqlQuery q;
     if(!q.exec("SELECT data FROM information WHERE name = 'program_version'")){
         sqlErrorMsg("Program version query", q.lastError());
     }else{
@@ -90,42 +90,46 @@ void MainWindow::onDbLoad()
     ui->actionClose->setEnabled(true);
     /* Defining the models */
     /* Item Model and view */
-    itemModel = new QSqlTableModel(this, db);
+    itemModel = new QSqlRelationalTableModel(this, db);
     itemModel->setTable("items");
     itemModel->setEditStrategy(QSqlTableModel::OnRowChange);
     itemModel->select();
+    itemModel->setRelation(8,QSqlRelation("locations","id","name"));
     itemModel->removeColumn(0);
-    itemModel->removeColumns(4,4); // don't show the ID, record date, description, accessdate and qrcode
+    itemModel->removeColumns(3,4); // don't show the ID, record date, description, accessdate and qrcode
     itemModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
     itemModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     itemModel->setHeaderData(2, Qt::Horizontal, tr("Entry date"));
     itemModel->setHeaderData(3, Qt::Horizontal, tr("Location name"));
+    ui->itemsView->setItemDelegate(new QSqlRelationalDelegate(ui->itemsView));
     ui->itemsView->setModel(itemModel);
     /* Location Model and view */
-    locationModel = new QSqlTableModel(this, db);
+    locationModel = new QSqlRelationalTableModel(this, db);
     locationModel->setTable("locations");
     locationModel->setEditStrategy(QSqlTableModel::OnRowChange);
     locationModel->select();
+    itemModel->setRelation(7,QSqlRelation("addresses","id","name"));
     locationModel->removeColumn(0);
-    locationModel->removeColumns(5,2); // don't show the description and accessdate
+    locationModel->removeColumns(4,2); // don't show the description and accessdate
     locationModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
     locationModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     locationModel->setHeaderData(2, Qt::Horizontal, tr("Creation date"));
     locationModel->setHeaderData(3, Qt::Horizontal, tr("Closing date"));
     locationModel->setHeaderData(4, Qt::Horizontal, tr("Address name"));
+    ui->locationsView->setItemDelegate(new QSqlRelationalDelegate(ui->locationsView));
     ui->locationsView->setModel(locationModel);
     /* Address Model and view */
-    addressModel = new QSqlTableModel(this, db);
+    addressModel = new QSqlRelationalTableModel(this, db);
     addressModel->setTable("addresses");
     addressModel->setEditStrategy(QSqlTableModel::OnRowChange);
     addressModel->select();
     addressModel->removeColumn(0);
-    addressModel->removeColumns(2,4); // don't show anything but the name and reference
+    addressModel->removeColumns(1,4); // don't show anything but the name and reference
     addressModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
     addressModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
     ui->addressesView->setModel(addressModel);
     /* Tag Model and view */
-    tagModel = new QSqlTableModel(this, db);
+    tagModel = new QSqlRelationalTableModel(this, db);
     tagModel->setTable("tags");
     tagModel->setEditStrategy(QSqlTableModel::OnRowChange);
     tagModel->select();
@@ -133,7 +137,7 @@ void MainWindow::onDbLoad()
     tagModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
     ui->tagsView->setModel(tagModel);
     /* Status Model and view */
-    statusModel = new QSqlTableModel(this, db);
+    statusModel = new QSqlRelationalTableModel(this, db);
     statusModel->setTable("statuses");
     statusModel->setEditStrategy(QSqlTableModel::OnRowChange);
     statusModel->select();
@@ -260,15 +264,15 @@ void MainWindow::filterView(int filterNumber){
         query << "name";
         break;
     }
-    if(!filter.isEmpty()){
-        QStringListIterator qIt(query);
-        while(qIt.hasNext()){
-            filterQuery.append(qIt.next()+ " LIKE '%"+filter+"' OR ");
-        }
-        filterQuery.chop(3); // remove the trailing 'OR '
-#ifdef DEBUG
-        qDebug() << "Filtering"<< name << "with [" << filterQuery << "]";
-#endif
-        itemModel->setFilter(filterQuery);
+
+    QStringListIterator qIt(query);
+    while(qIt.hasNext()){
+        filterQuery.append(qIt.next()+ " LIKE '%"+filter+"%' OR ");
     }
+    filterQuery.chop(3); // remove the trailing 'OR '
+#ifdef DEBUG
+    qDebug() << "Filtering"<< name << "with [" << filterQuery << "]";
+#endif
+    model->setFilter(filterQuery);
+
 }

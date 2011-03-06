@@ -10,8 +10,11 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QStringList>
+#include <QSqlRelationalTableModel>
 #include <QSqlTableModel>
+#include <QSqlRelation>
 #include <QSignalMapper>
+#include <QSqlRelationalDelegate>
 
 #define VERSION 0.1
 #define DEBUG
@@ -34,7 +37,7 @@ private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QSqlQuery *latestQuery;
-    QSqlTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel;
+    QSqlRelationalTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel;
     // functions and methods
     bool execMQueries(QString query);
     void onDbLoad();
