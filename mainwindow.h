@@ -11,8 +11,10 @@
 #include <QDebug>
 #include <QStringList>
 #include <QSqlTableModel>
+#include <QSignalMapper>
 
 #define VERSION 0.1
+#define DEBUG
 
 namespace Ui {
     class MainWindow;
@@ -38,7 +40,7 @@ private:
     void onDbLoad();
     void sqlErrorMsg(QString query, QSqlError error);
 
-public slots:
+private slots:
     /* File slots */
     void newDb();
     void openDb();
@@ -51,6 +53,8 @@ public slots:
     /* Tools slots */
     void preferences();
     void about();
+    /* Other slots */
+    void filterView(int);
 };
 
 #endif // MAINWINDOW_H
