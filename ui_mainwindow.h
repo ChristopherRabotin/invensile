@@ -23,11 +23,9 @@
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
-#include <QtGui/QStatusBar>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableView>
 #include <QtGui/QTableWidget>
-#include <QtGui/QToolBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
@@ -128,8 +126,6 @@ public:
     QMenu *menuCreate;
     QMenu *menuTools;
     QMenu *menuFile;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -520,12 +516,6 @@ public:
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
@@ -553,7 +543,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
 
-        tabWidget->setCurrentIndex(5);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

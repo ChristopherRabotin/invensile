@@ -75,15 +75,15 @@ bool MainWindow::execMQueries(QString query)
 void MainWindow::onDbLoad()
 {
     QSqlQuery q;
-    if(!q.exec("SELECT data FROM information WHERE name = 'program_version'")){
+    if(!q.exec("SELECT id,data FROM information WHERE name = 'program_version'")){
         sqlErrorMsg("Program version query", q.lastError());
     }else{
-        ui->label_Program_version->setText(ui->label_Program_version->text()+q.value(0).toString());
+        ui->label_Program_version->setText(ui->label_Program_version->text()+q.value(1).toString());
     }
-    if(!q.exec("SELECT data FROM information WHERE name = 'latest_modification_date'")){
+    if(!q.exec("SELECT id,data FROM information WHERE name = 'latest_modification_date'")){
         sqlErrorMsg("Latest modification query", q.lastError());
     }else{
-        ui->label_LatestModification->setText(ui->label_LatestModification->text()+q.value(0).toString());
+        ui->label_LatestModification->setText(ui->label_LatestModification->text()+q.value(1).toString());
     }
 
     ui->centralWidget->show();
@@ -93,22 +93,23 @@ void MainWindow::onDbLoad()
     itemModel = new QSqlRelationalTableModel(this, db);
     itemModel->setTable("items");
     itemModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    itemModel->select();
     itemModel->setRelation(8,QSqlRelation("locations","id","name"));
-    itemModel->removeColumn(0);
-    itemModel->removeColumns(3,4); // don't show the ID, record date, description, accessdate and qrcode
+    /*itemModel->removeColumns(3,4); // don't show the ID, record date, description, accessdate and qrcode
     itemModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
     itemModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     itemModel->setHeaderData(2, Qt::Horizontal, tr("Entry date"));
-    itemModel->setHeaderData(3, Qt::Horizontal, tr("Location name"));
+    itemModel->setHeaderData(3, Qt::Horizontal, tr("Location name"));*/
+    //ui->itemsView->setColumnHidden(0,true); // hide the ID
+    itemModel->select();
     ui->itemsView->setItemDelegate(new QSqlRelationalDelegate(ui->itemsView));
     ui->itemsView->setModel(itemModel);
+    ui->itemsView->setColumnHidden(0,true);
     /* Location Model and view */
     locationModel = new QSqlRelationalTableModel(this, db);
     locationModel->setTable("locations");
     locationModel->setEditStrategy(QSqlTableModel::OnRowChange);
     locationModel->select();
-    itemModel->setRelation(7,QSqlRelation("addresses","id","name"));
+    locationModel->setRelation(7,QSqlRelation("addresses","id","name"));
     locationModel->removeColumn(0);
     locationModel->removeColumns(4,2); // don't show the description and accessdate
     locationModel->setHeaderData(0, Qt::Horizontal, tr("Reference"));
