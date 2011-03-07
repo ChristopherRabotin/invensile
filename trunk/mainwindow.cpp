@@ -104,14 +104,15 @@ void MainWindow::onDbLoad()
     itemModel->setHeaderData(7, Qt::Horizontal, tr("QR Code"));
     itemModel->setHeaderData(8, Qt::Horizontal, tr("Address"));
     itemModel->select();
+    itemModel->setSort(3,Qt::AscendingOrder);
     ui->itemsView->setItemDelegate(new QSqlRelationalDelegate(ui->itemsView));
     ui->itemsView->setModel(itemModel);
+    ui->itemsView->setSortingEnabled(true);
     ui->itemsView->setColumnHidden(0,true); // hide the ID column
     /* Location Model and view */
     locationModel = new QSqlRelationalTableModel(this, db);
     locationModel->setTable("locations");
     locationModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    locationModel->select();
     locationModel->setRelation(7,QSqlRelation("addresses","id","name"));
     locationModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
     locationModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
@@ -121,14 +122,16 @@ void MainWindow::onDbLoad()
     locationModel->setHeaderData(5, Qt::Horizontal, tr("Access date"));
     locationModel->setHeaderData(6, Qt::Horizontal, tr("Description"));
     locationModel->setHeaderData(7, Qt::Horizontal, tr("Address"));
+    locationModel->select();
+    locationModel->setSort(3,Qt::AscendingOrder);
     ui->locationsView->setItemDelegate(new QSqlRelationalDelegate(ui->locationsView));
     ui->locationsView->setModel(locationModel);
+    ui->locationsView->setSortingEnabled(true);
     ui->locationsView->setColumnHidden(0,true); // hide the ID column
     /* Address Model and view */
     addressModel = new QSqlRelationalTableModel(this, db);
     addressModel->setTable("addresses");
     addressModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    addressModel->select();
     addressModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
     addressModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     addressModel->setHeaderData(2, Qt::Horizontal, tr("Country"));
@@ -136,27 +139,34 @@ void MainWindow::onDbLoad()
     addressModel->setHeaderData(4, Qt::Horizontal, tr("Postal code"));
     addressModel->setHeaderData(5, Qt::Horizontal, tr("Street"));
     addressModel->setHeaderData(6, Qt::Horizontal, tr("Reference"));
+    addressModel->select();
+    addressModel->setSort(1,Qt::AscendingOrder);
     ui->addressesView->setModel(addressModel);
+    ui->addressesView->setSortingEnabled(true);
     ui->addressesView->setColumnHidden(0,true); // hide the ID column
     /* Tag Model and view */
     tagModel = new QSqlRelationalTableModel(this, db);
     tagModel->setTable("tags");
     tagModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    tagModel->select();
     tagModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
     tagModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    tagModel->select();
+    tagModel->setSort(1,Qt::AscendingOrder);
     ui->tagsView->setModel(tagModel);
+    ui->tagsView->setSortingEnabled(true);
     ui->tagsView->setColumnHidden(0,true); // hide the ID column
     /* Status Model and view */
     statusModel = new QSqlRelationalTableModel(this, db);
     statusModel->setTable("statuses");
     statusModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    statusModel->select();
     statusModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
     statusModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     statusModel->setHeaderData(2, Qt::Horizontal, tr("Background color"));
     statusModel->setHeaderData(3, Qt::Horizontal, tr("Foreground color"));
+    statusModel->select();
+    statusModel->setSort(1,Qt::AscendingOrder);
     ui->statusesView->setModel(statusModel);
+    ui->statusesView->setSortingEnabled(true);
     ui->statusesView->setColumnHidden(0,true); // hide the ID column
 }
 
