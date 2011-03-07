@@ -15,6 +15,7 @@
 #include <QSqlRelation>
 #include <QSignalMapper>
 #include <QSqlRelationalDelegate>
+#include <QTableView>
 
 #define VERSION 0.1
 #define DEBUG
@@ -42,6 +43,7 @@ private:
     bool execMQueries(QString query);
     void onDbLoad();
     void sqlErrorMsg(QString query, QSqlError error);
+    QSqlRelationalTableModel* modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol);
 
 private slots:
     /* File slots */
