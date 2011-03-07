@@ -68,6 +68,27 @@ bool MainWindow::execMQueries(QString query)
     return rtn;
 }
 
+QSqlRelationalTableModel *MainWindow::modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol)
+{
+    model = new QSqlRelationalTableModel(this, db);
+    model->setTable(table);
+    model->setEditStrategy(QSqlTableModel::OnRowChange); // it's the same edit strategy for all views
+    if(relationInfo.length() == 3){
+        model->setRelation(relationCol,QSqlRelation(relationInfo.at(0),relationInfo.at(1),relationInfo.at(2)));
+    }
+    model->setSort(sortedCol, Qt::AscendingOrder); // all columns are to be sorted in an Ascended fashion
+    for (int i = 0; i < headers.size(); i++){ // populate the headers
+        model->setHeaderData(i, Qt::Horizontal, headers.at(i));
+    }
+    model->select(); // all tables are in select mode
+
+    view->setItemDelegate(new QSqlRelationalDelegate(view));
+    view->setModel(model);
+    view->setSortingEnabled(true);
+    view->setColumnHidden(0,true); // hide the ID column for all tables
+    return model;
+}
+
 /**
  * This function is called once a database file has been opened or is created.
  * It loads the central widget and the SQL model.
@@ -90,84 +111,30 @@ void MainWindow::onDbLoad()
     ui->actionClose->setEnabled(true);
     /* Defining the models */
     /* Item Model and view */
-    itemModel = new QSqlRelationalTableModel(this, db);
-    itemModel->setTable("items");
-    itemModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    itemModel->setRelation(8,QSqlRelation("locations","id","name"));
-    itemModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    itemModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
-    itemModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
-    itemModel->setHeaderData(3, Qt::Horizontal, tr("Entry date"));
-    itemModel->setHeaderData(4, Qt::Horizontal, tr("Record date"));
-    itemModel->setHeaderData(5, Qt::Horizontal, tr("Description"));
-    itemModel->setHeaderData(6, Qt::Horizontal, tr("Access date"));
-    itemModel->setHeaderData(7, Qt::Horizontal, tr("QR Code"));
-    itemModel->setHeaderData(8, Qt::Horizontal, tr("Address"));
-    itemModel->select();
-    itemModel->setSort(3,Qt::AscendingOrder);
-    ui->itemsView->setItemDelegate(new QSqlRelationalDelegate(ui->itemsView));
-    ui->itemsView->setModel(itemModel);
-    ui->itemsView->setSortingEnabled(true);
-    ui->itemsView->setColumnHidden(0,true); // hide the ID column
+    QStringList itemHeaders, itemsRelationInfo;
+    itemHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Entry date") << tr("Record date") << tr("Description") << tr("Access date") << tr("QR Code") << tr("Location");
+    itemsRelationInfo << "locations" << "id" << "name";
+    itemModel = modelViewSetup(itemModel,ui->itemsView,"items",itemHeaders,8,itemsRelationInfo,3);
     /* Location Model and view */
-    locationModel = new QSqlRelationalTableModel(this, db);
-    locationModel->setTable("locations");
-    locationModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    locationModel->setRelation(7,QSqlRelation("addresses","id","name"));
-    locationModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    locationModel->setHeaderData(1, Qt::Horizontal, tr("Reference"));
-    locationModel->setHeaderData(2, Qt::Horizontal, tr("Name"));
-    locationModel->setHeaderData(3, Qt::Horizontal, tr("Creation date"));
-    locationModel->setHeaderData(4, Qt::Horizontal, tr("Closing date"));
-    locationModel->setHeaderData(5, Qt::Horizontal, tr("Access date"));
-    locationModel->setHeaderData(6, Qt::Horizontal, tr("Description"));
-    locationModel->setHeaderData(7, Qt::Horizontal, tr("Address"));
-    locationModel->select();
-    locationModel->setSort(3,Qt::AscendingOrder);
-    ui->locationsView->setItemDelegate(new QSqlRelationalDelegate(ui->locationsView));
-    ui->locationsView->setModel(locationModel);
-    ui->locationsView->setSortingEnabled(true);
-    ui->locationsView->setColumnHidden(0,true); // hide the ID column
+    QStringList locationHeaders, locationsRelationInfo;
+    locationHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Creation date") << tr("Closing date") << tr("Access date") << tr("Description") << tr("Address");
+    locationsRelationInfo << "addresses" << "id" << "name";
+    locationModel = modelViewSetup(locationModel,ui->locationsView,"locations",locationHeaders,7,locationsRelationInfo,3);
     /* Address Model and view */
-    addressModel = new QSqlRelationalTableModel(this, db);
-    addressModel->setTable("addresses");
-    addressModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    addressModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    addressModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    addressModel->setHeaderData(2, Qt::Horizontal, tr("Country"));
-    addressModel->setHeaderData(3, Qt::Horizontal, tr("Town"));
-    addressModel->setHeaderData(4, Qt::Horizontal, tr("Postal code"));
-    addressModel->setHeaderData(5, Qt::Horizontal, tr("Street"));
-    addressModel->setHeaderData(6, Qt::Horizontal, tr("Reference"));
-    addressModel->select();
-    addressModel->setSort(1,Qt::AscendingOrder);
-    ui->addressesView->setModel(addressModel);
-    ui->addressesView->setSortingEnabled(true);
-    ui->addressesView->setColumnHidden(0,true); // hide the ID column
+    QStringList addressHeaders, addressesRelationInfo;
+    addressHeaders << tr("ID") << tr("Name") << tr("Country") << tr("Town") << tr("Postal code") << tr("Street") << tr("Reference");
+    addressesRelationInfo << ""; // we don't put anything here because there is not relation.
+    addressModel = modelViewSetup(addressModel,ui->addressesView,"addresses",addressHeaders,-1,addressesRelationInfo,1);
     /* Tag Model and view */
-    tagModel = new QSqlRelationalTableModel(this, db);
-    tagModel->setTable("tags");
-    tagModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    tagModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    tagModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    tagModel->select();
-    tagModel->setSort(1,Qt::AscendingOrder);
-    ui->tagsView->setModel(tagModel);
-    ui->tagsView->setSortingEnabled(true);
-    ui->tagsView->setColumnHidden(0,true); // hide the ID column
+    QStringList tagHeaders, tagsRelationInfo;
+    tagHeaders << tr("ID") << tr("Name");
+    tagsRelationInfo << ""; // we don't put anything here because there is not relation.
+    tagModel = modelViewSetup(tagModel,ui->tagsView,"tags",addressHeaders,-1,addressesRelationInfo,1);
     /* Status Model and view */
-    statusModel = new QSqlRelationalTableModel(this, db);
-    statusModel->setTable("statuses");
-    statusModel->setEditStrategy(QSqlTableModel::OnRowChange);
-    statusModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    statusModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    statusModel->setHeaderData(2, Qt::Horizontal, tr("Background color"));
-    statusModel->setHeaderData(3, Qt::Horizontal, tr("Foreground color"));
-    statusModel->select();
-    statusModel->setSort(1,Qt::AscendingOrder);
-    ui->statusesView->setModel(statusModel);
-    ui->statusesView->setSortingEnabled(true);
-    ui->statusesView->setColumnHidden(0,true); // hide the ID column
+    QStringList statusHeaders, statusesRelationInfo;
+    statusHeaders << tr("ID") << tr("Name") << tr("Background color") << tr("Foreground color");
+    statusesRelationInfo << ""; // we don't put anything here because there is not relation.
+    statusModel = modelViewSetup(statusModel,ui->statusesView,"statuses",statusHeaders,-1,statusesRelationInfo,1);
 }
 
 void MainWindow::newDb()
@@ -268,7 +235,7 @@ void MainWindow::filterView(int filterNumber){
     switch(filterNumber){
     case 0:
         name = "addresses"; model = addressModel; filter = ui->filterAddressEdit->text();
-        query << "ref" << "name" << "country" << "town" << "description";
+        query << "ref" << "name" << "country" << "town" << "postal_code" << "street";
         break;
     case 1:
         name = "items"; model = itemModel; filter = ui->filterItemsEdit->text();
