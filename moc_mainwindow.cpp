@@ -37,16 +37,16 @@ static const uint qt_meta_data_MainWindow[] = {
       39,   11,   11,   11, 0x08,
       57,   11,   11,   11, 0x08,
       66,   11,   11,   11, 0x08,
-      75,   11,   11,   11, 0x08,
-      89,   11,   11,   11, 0x08,
-      97,   11,   11,   11, 0x08,
+      78,   11,   11,   11, 0x08,
+      92,   11,   11,   11, 0x08,
+     100,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0newDb()\0openDb()\0closeDb()\0"
-    "exportInventory()\0modify()\0create()\0"
+    "exportInventory()\0modify()\0create(int)\0"
     "preferences()\0about()\0filterView(int)\0"
 };
 
@@ -84,7 +84,7 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: closeDb(); break;
         case 3: exportInventory(); break;
         case 4: modify(); break;
-        case 5: create(); break;
+        case 5: create((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: preferences(); break;
         case 7: about(); break;
         case 8: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;

@@ -20,12 +20,31 @@ MainWindow::MainWindow(QWidget *parent) :
     filterMapper->setMapping(ui->filterStatusesEdit,3);
     filterMapper->setMapping(ui->filterTagsEdit,4);
     
+    /* filter mapping */
     connect(ui->filterAddressEdit,SIGNAL(textChanged(QString)),filterMapper,SLOT (map()));
-    connect(ui->filterItemsEdit,SIGNAL(textEdited(QString)),filterMapper,SLOT (map()));
-    connect(ui->filterLocationsEdit,SIGNAL(textEdited(QString)),filterMapper,SLOT (map()));
-    connect(ui->filterStatusesEdit,SIGNAL(textEdited(QString)),filterMapper,SLOT (map()));
-    connect(ui->filterTagsEdit,SIGNAL(textEdited(QString)),filterMapper,SLOT (map()));
+    connect(ui->filterItemsEdit,SIGNAL(textChanged(QString)),filterMapper,SLOT (map()));
+    connect(ui->filterLocationsEdit,SIGNAL(textChanged(QString)),filterMapper,SLOT (map()));
+    connect(ui->filterStatusesEdit,SIGNAL(textChanged(QString)),filterMapper,SLOT (map()));
+    connect(ui->filterTagsEdit,SIGNAL(textChanged(QString)),filterMapper,SLOT (map()));
     connect(filterMapper,SIGNAL(mapped(int)),this,SLOT(filterView(int)));
+
+    /* create signal mapper */
+    QSignalMapper *createMapper = new QSignalMapper(this);
+    createMapper->setMapping(ui->newAddressButton,0);
+    createMapper->setMapping(ui->newItemButton,1);
+    createMapper->setMapping(ui->newLocationButton,2);
+    createMapper->setMapping(ui->newStatusButton,3);
+    createMapper->setMapping(ui->newTagButton,4);
+    /* Create mapping */
+    /* filter mapping */
+    //connect(ui->newAddressButton,SIGNAL(clicked())),createMapper,SLOT (map());
+    connect(ui->newItemButton,SIGNAL(clicked()),createMapper,SLOT (map()));
+    connect(ui->newLocationButton,SIGNAL(clicked()),createMapper,SLOT (map()));
+    connect(ui->newStatusButton,SIGNAL(clicked()),createMapper,SLOT (map()));
+    connect(ui->newTagButton,SIGNAL(clicked()),createMapper,SLOT (map()));
+    connect(createMapper,SIGNAL(mapped(int)),this,SLOT(create(int)));
+    //connect(ui->newItemButton,SIGNAL(clicked()),this,SLOT(create(int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -217,9 +236,15 @@ void MainWindow::modify()
 {
 
 }
-void MainWindow::create()
+void MainWindow::create(int createWhat)
 {
-
+    switch(createWhat){
+    case 1:
+        //q.exec("INSERT INTO 'items' (ref,name,entrydate,recorddate,location_id) VALUES ('')")
+        createDialog = new CreateDialog();
+        createDialog->show();
+        break;
+    }
 }
 void MainWindow::preferences()
 {

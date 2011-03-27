@@ -16,6 +16,8 @@
 #include <QSignalMapper>
 #include <QSqlRelationalDelegate>
 #include <QTableView>
+/* Project includes */
+#include "createdialog.h"
 
 #define VERSION 0.1
 #define DEBUG
@@ -44,6 +46,8 @@ private:
     void onDbLoad();
     void sqlErrorMsg(QString query, QSqlError error);
     QSqlRelationalTableModel* modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol);
+    /* Other dialogs */
+    CreateDialog *createDialog;
 
 private slots:
     /* File slots */
@@ -54,7 +58,7 @@ private slots:
     /* Edit slots */
     void modify(); // maybe add a QString or QObject to know what to modify
     /* Create slots */
-    void create(); // idem as modify to avoid code duplication
+    void create(int); // int used for mapping
     /* Tools slots */
     void preferences();
     void about();
