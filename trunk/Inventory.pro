@@ -7,6 +7,9 @@ QT += network \
 TARGET = Inventory
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp
-HEADERS += mainwindow.h
-FORMS += mainwindow.ui
+    mainwindow.cpp \
+    createdialog.cpp
+HEADERS += mainwindow.h \
+    createdialog.h
+FORMS += mainwindow.ui \
+    createdialog.ui
