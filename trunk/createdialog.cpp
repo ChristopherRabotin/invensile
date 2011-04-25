@@ -10,7 +10,7 @@ CreateDialog::CreateDialog(QWidget *parent) :
     ui->recordDateEdit->setDisplayFormat("yyyy.mm.dd");
     ui->entryDateEdit->setCalendarPopup(true);
     ui->recordDateEdit->setCalendarPopup(true);
-    connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(submit()));
+    connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
 }
 
 CreateDialog::~CreateDialog()
@@ -30,9 +30,22 @@ void CreateDialog::changeEvent(QEvent *e)
     }
 }
 
-void CreateDialog::submit()
+void CreateDialog::accept()
 {
-    QSqlQuery q;
-    q.exec("SELECT ref FROM 'locations' WHERE id='1'");
-    qDebug() << q.nextResult();
+ qDebug << "b";
+    query.prepare("INSERT INTO 'items' (ref, name, entrydate, recorddate, description, location_id) "
+                  "VALUES ('test', 'nam', 'entrydat', 'recorddat', 'descriptio', 'location_i')");
+     /*query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
+                   "VALUES (:ref, :name, :entrydate, :recorddate, :description, :location_id)");
+     query.bindValue(":ref", 1001);
+     query.bindValue(":name", ui->nameLineEdit->text());
+     query.bindValue(":entrydate", ui->entryDateEdit->text());
+     query.bindValue(":recorddate", ui->recordDateEdit->text());
+     query.bindValue(":description", ui->descriptionTextEdit->toPlainText());
+     query.bindValue(":location_id", "0");*/
+     //qDebug()<<query.exec();
+    //qDebug() << query.exec();
+    query.exec();
+    qDebug << query.executedQuery().toStdString();
+
 }
