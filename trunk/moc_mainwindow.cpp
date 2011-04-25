@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,19 +35,18 @@ static const uint qt_meta_data_MainWindow[] = {
       20,   11,   11,   11, 0x08,
       29,   11,   11,   11, 0x08,
       39,   11,   11,   11, 0x08,
-      57,   11,   11,   11, 0x08,
-      66,   11,   11,   11, 0x08,
-      78,   11,   11,   11, 0x08,
-      92,   11,   11,   11, 0x08,
-     100,   11,   11,   11, 0x08,
+      48,   11,   11,   11, 0x08,
+      60,   11,   11,   11, 0x08,
+      74,   11,   11,   11, 0x08,
+      82,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0newDb()\0openDb()\0closeDb()\0"
-    "exportInventory()\0modify()\0create(int)\0"
-    "preferences()\0about()\0filterView(int)\0"
+    "modify()\0create(int)\0preferences()\0"
+    "about()\0filterView(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -82,15 +81,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: newDb(); break;
         case 1: openDb(); break;
         case 2: closeDb(); break;
-        case 3: exportInventory(); break;
-        case 4: modify(); break;
-        case 5: create((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: preferences(); break;
-        case 7: about(); break;
-        case 8: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 3: modify(); break;
+        case 4: create((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: preferences(); break;
+        case 6: about(); break;
+        case 7: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 9;
+        _id -= 8;
     }
     return _id;
 }

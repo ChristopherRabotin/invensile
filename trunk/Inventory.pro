@@ -8,8 +8,10 @@ TARGET = Inventory
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
-    createdialog.cpp
+    createdialog.cpp \
+    backbone.cpp
 HEADERS += mainwindow.h \
-    createdialog.h
+    createdialog.h \
+    backbone.h
 FORMS += mainwindow.ui \
     createdialog.ui
