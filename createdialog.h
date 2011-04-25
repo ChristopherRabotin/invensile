@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QSqlError>
+
 namespace Ui {
     class CreateDialog;
 }
@@ -13,6 +15,7 @@ class CreateDialog : public QDialog {
 public:
     CreateDialog(QWidget *parent = 0);
     ~CreateDialog();
+    QSqlQuery query;
 
 protected:
     void changeEvent(QEvent *e);
@@ -21,7 +24,7 @@ private:
     Ui::CreateDialog *ui;
 
 private slots:
-    void submit();
+    void accept();
 };
 
 #endif // CREATEDIALOG_H

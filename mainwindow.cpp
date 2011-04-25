@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->newTagButton,SIGNAL(clicked()),createMapper,SLOT (map()));
     connect(createMapper,SIGNAL(mapped(int)),this,SLOT(create(int)));
     //connect(ui->newItemButton,SIGNAL(clicked()),this,SLOT(create(int)));
-
 }
 
 MainWindow::~MainWindow()
@@ -240,7 +239,6 @@ void MainWindow::create(int createWhat)
 {
     switch(createWhat){
     case 1:
-        //q.exec("INSERT INTO 'items' (ref,name,entrydate,recorddate,location_id) VALUES ('')")
         createDialog = new CreateDialog();
         createDialog->show();
         break;
