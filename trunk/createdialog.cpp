@@ -6,10 +6,25 @@ CreateDialog::CreateDialog(QWidget *parent) :
         ui(new Ui::CreateDialog)
 {
     ui->setupUi(this);
-    ui->entryDateEdit->setDisplayFormat("yyyy.mm.dd");
-    ui->recordDateEdit->setDisplayFormat("yyyy.mm.dd");
-    ui->entryDateEdit->setCalendarPopup(true);
-    ui->recordDateEdit->setCalendarPopup(true);
+    /* Determining the reference number */
+    QDateTime now = QDateTime::currentDateTime();
+    QString ref = "#"+QString::number(now.date().year());
+    // correct the missing tailing zero for months inferior to october.
+    ref.append(now.date().month()<10?QString("0").append(QString::number(now.date().month())):QString::number(now.date().month()));
+    ref.append(QString::number(now.date().day())+"-");
+    backbone::instance()->query.exec("SELECT COUNT(ref) FROM items WHERE ref LIKE '"+ref+"%'");
+    int numRef = 1;
+    if (backbone::instance()->query.next()) {
+        numRef = backbone::instance()->query.value(0).toString().toInt()+1;
+    }
+    ref.append(QString::number(numRef));
+#ifdef DEBUG
+    qDebug() << "Final ref = {" << ref <<"}";
+#endif
+    ui->refLineEdit->setText(ref);
+    /* Modify dates */
+    ui->entryDateEdit->setDateTime(now);
+    ui->recordDateEdit->setDateTime(now);
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
 }
 
@@ -32,9 +47,13 @@ void CreateDialog::changeEvent(QEvent *e)
 
 void CreateDialog::accept()
 {
+    if(ui->refLineEdit->text().length() < 5){
+        QMessageBox::critical(0, tr("Error"),tr("The name must be at least 5 characters long."), QMessageBox::Cancel);
+        return;
+    }
     backbone::instance()->query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
                                         "VALUES (:r, :n, :e, :re, :d, :l)");
-    backbone::instance()->query.bindValue(":r", "1001");
+    backbone::instance()->query.bindValue(":r", ui->refLineEdit->text());
     backbone::instance()->query.bindValue(":n", ui->nameLineEdit->text());
     backbone::instance()->query.bindValue(":e", ui->entryDateEdit->text());
     backbone::instance()->query.bindValue(":re", ui->recordDateEdit->text());
@@ -43,7 +62,7 @@ void CreateDialog::accept()
     backbone::instance()->query.exec();
 #ifdef DEBUG
     qDebug() << ":r = {1001}" << "\n:n = {" << ui->nameLineEdit->text() << "}\n:e = {"<<
-            ui->entryDateEdit->text()<<"}\n:re = {" << ui->recordDateEdit->text() << "}\n:d = " <<
+            ui->entryDateEdit->text()<<"}\n:re = {" << ui->recordDateEdit->text() << "}\n:d = {" <<
             ui->descriptionTextEdit->toPlainText() << "}";
     qDebug() << "Error = {" << backbone::instance()->query.lastError().text() << "}";
     qDebug() << "Latest query = {" << backbone::instance()->query.executedQuery() << "}";

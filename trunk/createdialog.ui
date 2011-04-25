@@ -93,6 +93,15 @@ p, li { white-space: pre-wrap; }
          <property name="inputMethodHints">
           <set>Qt::ImhPreferNumbers</set>
          </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::YearSection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>yyyy.MM.dd</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -117,6 +126,15 @@ p, li { white-space: pre-wrap; }
         <widget class="QDateEdit" name="entryDateEdit">
          <property name="locale">
           <locale language="French" country="France"/>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::DaySection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>yyyy.MM.dd</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
