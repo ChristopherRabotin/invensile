@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->centralWidget->hide();
     ui->actionClose->setDisabled(true);
+    ui->actionRefresh_views->setDisabled(true);
     // connect(ui->addButton, SIGNAL(clicked()),this,SLOT(addContact()));
     connect(ui->actionNew, SIGNAL(triggered()),this,SLOT(newDb()));
     connect(ui->actionOpen, SIGNAL(triggered()),this,SLOT(openDb()));
     connect(ui->actionClose, SIGNAL(triggered()),this,SLOT(closeDb()));
+    connect(ui->actionRefresh_views, SIGNAL(triggered()),this,SLOT(updateViews()));
     /* filter signal mapper */
     QSignalMapper *filterMapper = new QSignalMapper(this);
     filterMapper->setMapping(ui->filterAddressEdit,0);
@@ -44,6 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->newTagButton,SIGNAL(clicked()),createMapper,SLOT (map()));
     connect(createMapper,SIGNAL(mapped(int)),this,SLOT(create(int)));
     //connect(ui->newItemButton,SIGNAL(clicked()),this,SLOT(create(int)));
+}
+
+MainWindow* MainWindow::instance()
+{
+   static MainWindow* _setupObj= new MainWindow();
+   return _setupObj;
 }
 
 MainWindow::~MainWindow()
@@ -104,6 +112,7 @@ void MainWindow::onDbLoad()
 
     ui->centralWidget->show();
     ui->actionClose->setEnabled(true);
+    ui->actionRefresh_views->setEnabled(true);
     /* Defining the models */
     /* Item Model and view */
     QStringList itemHeaders, itemsRelationInfo;
@@ -226,4 +235,15 @@ void MainWindow::filterView(int filterNumber){
 #ifdef DEBUG
     qDebug() << "Error [" << model->query().lastError().text() << "]";
 #endif
+}
+
+void MainWindow::updateViews(){
+#ifdef DEBUG
+    qDebug() << "Updating views.";
+#endif
+    itemModel->select();
+    addressModel->select();
+    tagModel->select();
+    statusModel->select();
+    locationModel->select();
 }

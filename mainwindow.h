@@ -30,6 +30,10 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    static MainWindow* instance();
+
+public slots:
+    void updateViews();
 
 protected:
     void changeEvent(QEvent *e);

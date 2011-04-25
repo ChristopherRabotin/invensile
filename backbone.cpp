@@ -3,6 +3,7 @@
 backbone::backbone()
 {
 }
+
 bool backbone::newDb(QString dbFile)
 {
     /* now we create the database file */
@@ -11,6 +12,8 @@ bool backbone::newDb(QString dbFile)
     if (!db.open()) {
         return false;
     }
+    QSqlQuery q(db);
+    query = q;
     /* We prepare the queries. */
     QStringList qList;
     qList.append("PRAGMA foreignkey = ON");
@@ -45,6 +48,8 @@ bool backbone::openDb(QString dbFile)
     if (!db.open()) {
         return false;
     }
+    QSqlQuery q(db);
+    query = q;
     QStringList qList;
     qList.append("PRAGMA foreignkey = ON");
     qList.append("UPDATE 'information' SET data=date(\"now\") WHERE name='latest_access_date'");
@@ -66,14 +71,17 @@ void backbone::closeDb()
  * This function must be called while executing multiple SQL queries in a row.
  * @return bool
  */
-bool backbone::execMQueries(QString query)
+bool backbone::execMQueries(QString queryStr)
 {
-    QSqlQuery q(db);
-    bool rtn = q.exec(query);
+    bool rtn = query.exec(queryStr);
     if(!rtn){
-        qDebug() << "<" << QDate::currentDate() << "> Error in SQL query execution: [" << query << "]\n Message is {"<< q.lastError().text() <<"}";
-        return rtn;
+        qDebug() << "<" << QDate::currentDate() << "> Error in SQL query execution: [" << queryStr << "]\n Message is {"<< query.lastError().text() <<"}";
     }
+#ifdef DEBUG
+    else{
+        qDebug() << "<" << QDate::currentDate() << "> Ok for: [" << queryStr << "]";
+    }
+#endif
     return rtn;
 }
 

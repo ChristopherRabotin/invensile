@@ -32,21 +32,21 @@ void CreateDialog::changeEvent(QEvent *e)
 
 void CreateDialog::accept()
 {
-    qDebug() << "b";
-
-    query.prepare("INSERT INTO 'items' (ref, name, entrydate, recorddate, description, location_id) "
-                  "VALUES ('test', 'nam', 'entrydat', 'recorddat', 'descriptio', 'location_i')");
-    /*query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
-                   "VALUES (:ref, :name, :entrydate, :recorddate, :description, :location_id)");
-     query.bindValue(":ref", 1001);
-     query.bindValue(":name", ui->nameLineEdit->text());
-     query.bindValue(":entrydate", ui->entryDateEdit->text());
-     query.bindValue(":recorddate", ui->recordDateEdit->text());
-     query.bindValue(":description", ui->descriptionTextEdit->toPlainText());
-     query.bindValue(":location_id", "0");*/
-    //qDebug()<<query.exec();
-    //qDebug() << query.exec();
-    query.exec();
-    qDebug() << query.executedQuery();
-
+    backbone::instance()->query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
+                                        "VALUES (:r, :n, :e, :re, :d, :l)");
+    backbone::instance()->query.bindValue(":r", "1001");
+    backbone::instance()->query.bindValue(":n", ui->nameLineEdit->text());
+    backbone::instance()->query.bindValue(":e", ui->entryDateEdit->text());
+    backbone::instance()->query.bindValue(":re", ui->recordDateEdit->text());
+    backbone::instance()->query.bindValue(":d", ui->descriptionTextEdit->toPlainText());
+    backbone::instance()->query.bindValue(":l", "1");
+    backbone::instance()->query.exec();
+#ifdef DEBUG
+    qDebug() << ":r = {1001}" << "\n:n = {" << ui->nameLineEdit->text() << "}\n:e = {"<<
+            ui->entryDateEdit->text()<<"}\n:re = {" << ui->recordDateEdit->text() << "}\n:d = " <<
+            ui->descriptionTextEdit->toPlainText() << "}";
+    qDebug() << "Error = {" << backbone::instance()->query.lastError().text() << "}";
+    qDebug() << "Latest query = {" << backbone::instance()->query.executedQuery() << "}";
+#endif
+    this->close();
 }
