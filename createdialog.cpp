@@ -2,8 +2,8 @@
 #include "ui_createdialog.h"
 
 CreateDialog::CreateDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::CreateDialog)
+        QDialog(parent),
+        ui(new Ui::CreateDialog)
 {
     ui->setupUi(this);
     ui->entryDateEdit->setDisplayFormat("yyyy.mm.dd");
@@ -32,10 +32,11 @@ void CreateDialog::changeEvent(QEvent *e)
 
 void CreateDialog::accept()
 {
- qDebug << "b";
+    qDebug() << "b";
+
     query.prepare("INSERT INTO 'items' (ref, name, entrydate, recorddate, description, location_id) "
                   "VALUES ('test', 'nam', 'entrydat', 'recorddat', 'descriptio', 'location_i')");
-     /*query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
+    /*query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
                    "VALUES (:ref, :name, :entrydate, :recorddate, :description, :location_id)");
      query.bindValue(":ref", 1001);
      query.bindValue(":name", ui->nameLineEdit->text());
@@ -43,9 +44,9 @@ void CreateDialog::accept()
      query.bindValue(":recorddate", ui->recordDateEdit->text());
      query.bindValue(":description", ui->descriptionTextEdit->toPlainText());
      query.bindValue(":location_id", "0");*/
-     //qDebug()<<query.exec();
+    //qDebug()<<query.exec();
     //qDebug() << query.exec();
     query.exec();
-    qDebug << query.executedQuery().toStdString();
+    qDebug() << query.executedQuery();
 
 }

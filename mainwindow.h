@@ -6,8 +6,6 @@
 #include <QFileDialog>
 #include <QSqlQuery>
 #include <QSqlRelationalTableModel>
-#include <QDate>
-#include <QSqlError>
 #include <QDebug>
 #include <QStringList>
 #include <QSqlRelationalTableModel>
@@ -18,6 +16,7 @@
 #include <QTableView>
 /* Project includes */
 #include "createdialog.h"
+#include "backbone.h"
 
 #define VERSION 0.1
 #define DEBUG
@@ -31,7 +30,6 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    //QSqlQuery *query; /* Standard query */
 
 protected:
     void changeEvent(QEvent *e);
@@ -39,13 +37,10 @@ protected:
 private:
     // variables
     Ui::MainWindow *ui;
-    QSqlDatabase db;
     QSqlQuery *latestQuery;
     QSqlRelationalTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel;
     // functions and methods
-    bool execMQueries(QString query);
     void onDbLoad();
-    void sqlErrorMsg(QString query, QSqlError error);
     QSqlRelationalTableModel* modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol);
     /* Other dialogs */
     CreateDialog *createDialog;
@@ -55,7 +50,6 @@ private slots:
     void newDb();
     void openDb();
     void closeDb();
-    void exportInventory();
     /* Edit slots */
     void modify(); // maybe add a QString or QObject to know what to modify
     /* Create slots */
