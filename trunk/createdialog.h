@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
 #include "backbone.h"
 #define DEBUG
 namespace Ui {

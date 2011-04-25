@@ -25,7 +25,16 @@ CreateDialog::CreateDialog(QWidget *parent) :
     /* Modify dates */
     ui->entryDateEdit->setDateTime(now);
     ui->recordDateEdit->setDateTime(now);
-    connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
+    /* Set up location model */
+    ui->locationCB->clear();
+    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    model->setTable("items");
+    model->setRelation(0,QSqlRelation("locations", "id", "name"));
+    model->select();
+    ui->locationCB->setModel(model);
+    /* Signals */
+    /* The following signal is not necessary because both functions are already connected. */
+    //connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
 }
 
 CreateDialog::~CreateDialog()
@@ -47,7 +56,7 @@ void CreateDialog::changeEvent(QEvent *e)
 
 void CreateDialog::accept()
 {
-    if(ui->refLineEdit->text().length() < 5){
+    if(ui->nameLineEdit->text().length() < 5){
         QMessageBox::critical(0, tr("Error"),tr("The name must be at least 5 characters long."), QMessageBox::Cancel);
         return;
     }
