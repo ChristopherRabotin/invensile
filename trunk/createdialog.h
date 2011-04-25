@@ -7,7 +7,7 @@
 #include <QSqlError>
 
 #include "backbone.h"
-
+#define DEBUG
 namespace Ui {
     class CreateDialog;
 }

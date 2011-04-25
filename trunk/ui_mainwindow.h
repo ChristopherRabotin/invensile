@@ -50,6 +50,7 @@ public:
     QAction *actionAbout;
     QAction *actionStatus;
     QAction *actionTag;
+    QAction *actionRefresh_views;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_9;
     QTabWidget *tabWidget;
@@ -119,8 +120,8 @@ public:
     QMenuBar *menuBar;
     QMenu *menuEdit;
     QMenu *menuCreate;
-    QMenu *menuTools;
     QMenu *menuFile;
+    QMenu *menuTools;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -161,6 +162,8 @@ public:
         actionStatus->setObjectName(QString::fromUtf8("actionStatus"));
         actionTag = new QAction(MainWindow);
         actionTag->setObjectName(QString::fromUtf8("actionTag"));
+        actionRefresh_views = new QAction(MainWindow);
+        actionRefresh_views->setObjectName(QString::fromUtf8("actionRefresh_views"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_9 = new QVBoxLayout(centralWidget);
@@ -491,10 +494,10 @@ public:
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menuCreate = new QMenu(menuBar);
         menuCreate->setObjectName(QString::fromUtf8("menuCreate"));
-        menuTools = new QMenu(menuBar);
-        menuTools->setObjectName(QString::fromUtf8("menuTools"));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuTools = new QMenu(menuBar);
+        menuTools->setObjectName(QString::fromUtf8("menuTools"));
         MainWindow->setMenuBar(menuBar);
 
         menuBar->addAction(menuFile->menuAction());
@@ -510,8 +513,6 @@ public:
         menuCreate->addSeparator();
         menuCreate->addAction(actionStatus);
         menuCreate->addAction(actionTag);
-        menuTools->addAction(actionPreferences);
-        menuTools->addAction(actionAbout);
         menuFile->addAction(actionNew);
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionClose);
@@ -519,6 +520,10 @@ public:
         menuFile->addAction(actionRecent_Files);
         menuFile->addAction(actionExport);
         menuFile->addAction(actionExit);
+        menuTools->addAction(actionPreferences);
+        menuTools->addAction(actionAbout);
+        menuTools->addSeparator();
+        menuTools->addAction(actionRefresh_views);
 
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
@@ -590,11 +595,13 @@ public:
 #endif // QT_NO_TOOLTIP
         actionAddress->setShortcut(QApplication::translate("MainWindow", "Alt+C, A", 0, QApplication::UnicodeUTF8));
         actionPreferences->setText(QApplication::translate("MainWindow", "Preferences", 0, QApplication::UnicodeUTF8));
+        actionPreferences->setShortcut(QApplication::translate("MainWindow", "F5", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
         actionStatus->setText(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));
         actionStatus->setShortcut(QApplication::translate("MainWindow", "Alt+C, S", 0, QApplication::UnicodeUTF8));
         actionTag->setText(QApplication::translate("MainWindow", "Tag", 0, QApplication::UnicodeUTF8));
         actionTag->setShortcut(QApplication::translate("MainWindow", "Alt+C, T", 0, QApplication::UnicodeUTF8));
+        actionRefresh_views->setText(QApplication::translate("MainWindow", "Refresh views", 0, QApplication::UnicodeUTF8));
         followUpBox->setTitle(QApplication::translate("MainWindow", "Follow ups", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Mark as correct", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
@@ -635,8 +642,8 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(itemsTab), QApplication::translate("MainWindow", "Items", 0, QApplication::UnicodeUTF8));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0, QApplication::UnicodeUTF8));
         menuCreate->setTitle(QApplication::translate("MainWindow", "Create", 0, QApplication::UnicodeUTF8));
-        menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
+        menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

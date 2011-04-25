@@ -371,13 +371,6 @@
     <addaction name="actionStatus"/>
     <addaction name="actionTag"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-    <addaction name="actionPreferences"/>
-    <addaction name="actionAbout"/>
-   </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
@@ -389,6 +382,15 @@
     <addaction name="actionRecent_Files"/>
     <addaction name="actionExport"/>
     <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionPreferences"/>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionRefresh_views"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -530,6 +532,9 @@
    <property name="text">
     <string>Preferences</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
@@ -550,6 +555,11 @@
    </property>
    <property name="shortcut">
     <string>Alt+C, T</string>
+   </property>
+  </action>
+  <action name="actionRefresh_views">
+   <property name="text">
+    <string>Refresh views</string>
    </property>
   </action>
  </widget>

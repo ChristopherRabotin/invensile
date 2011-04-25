@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -31,22 +31,23 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x08,
-      20,   11,   11,   11, 0x08,
-      29,   11,   11,   11, 0x08,
-      39,   11,   11,   11, 0x08,
-      48,   11,   11,   11, 0x08,
-      60,   11,   11,   11, 0x08,
+      12,   11,   11,   11, 0x0a,
+      26,   11,   11,   11, 0x08,
+      34,   11,   11,   11, 0x08,
+      43,   11,   11,   11, 0x08,
+      53,   11,   11,   11, 0x08,
+      62,   11,   11,   11, 0x08,
       74,   11,   11,   11, 0x08,
-      82,   11,   11,   11, 0x08,
+      88,   11,   11,   11, 0x08,
+      96,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0newDb()\0openDb()\0closeDb()\0"
-    "modify()\0create(int)\0preferences()\0"
-    "about()\0filterView(int)\0"
+    "MainWindow\0\0updateViews()\0newDb()\0"
+    "openDb()\0closeDb()\0modify()\0create(int)\0"
+    "preferences()\0about()\0filterView(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -78,17 +79,18 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: newDb(); break;
-        case 1: openDb(); break;
-        case 2: closeDb(); break;
-        case 3: modify(); break;
-        case 4: create((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: preferences(); break;
-        case 6: about(); break;
-        case 7: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: updateViews(); break;
+        case 1: newDb(); break;
+        case 2: openDb(); break;
+        case 3: closeDb(); break;
+        case 4: modify(); break;
+        case 5: create((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: preferences(); break;
+        case 7: about(); break;
+        case 8: filterView((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

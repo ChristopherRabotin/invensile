@@ -1,6 +1,6 @@
 #ifndef BACKBONE_H
 #define BACKBONE_H
-
+#define DEBUG
 #include <QObject>
 #include <QSqlQuery>
 #include <QSqlDatabase>
@@ -15,13 +15,14 @@ class backbone : public QObject
 public:
     backbone();
     QSqlDatabase db;
+    QSqlQuery query;
     bool newDb(QString dbFile);
     bool openDb(QString dbFile);
     void closeDb();
     void exportInventory();
     static backbone* instance();
-private:
     bool execMQueries(QString query);
+//private:
 };
 
 #endif // BACKBONE_H
