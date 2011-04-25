@@ -5,7 +5,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
-
+#include <QMessageBox>
 #include "backbone.h"
 #define DEBUG
 namespace Ui {
