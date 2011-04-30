@@ -25,14 +25,25 @@ CreateDialog::CreateDialog(QWidget *parent) :
     /* Modify dates */
     ui->entryDateEdit->setDateTime(now);
     ui->recordDateEdit->setDateTime(now);
+    ui->recordDateEdit->hide();
+    ui->dateOnItemLabel->hide();
     /* Set up location model */
     ui->locationCB->clear();
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    model->setTable("items");
-    model->setRelation(0,QSqlRelation("locations", "id", "name"));
-    model->select();
-    ui->locationCB->setModel(model);
+    QSqlRelationalTableModel *locationModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    locationModel->setTable("items");
+    locationModel->setRelation(8,QSqlRelation("locations", "id", "name"));
+    locationModel->select();
+    ui->locationCB->setModel(locationModel);
+    /* Set up status model */
+    ui->statusCB->clear();
+    QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    statusModel->setTable("statuses");
+    statusModel->setRelation(9,QSqlRelation("statuses", "id", "name"));
+    statusModel->select();
+    ui->statusCB->setModel(statusModel);
     /* Signals */
+    connect(ui->overrideCheckBox,SIGNAL(clicked()),this,SLOT(overrideRef()));
+    connect(ui->dateItemCheckBox,SIGNAL(clicked()),this,SLOT(dateItem()));
     /* The following signal is not necessary because both functions are already connected. */
     //connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
 }
@@ -59,22 +70,47 @@ void CreateDialog::accept()
     if(ui->nameLineEdit->text().length() < 5){
         QMessageBox::critical(0, tr("Error"),tr("The name must be at least 5 characters long."), QMessageBox::Cancel);
         return;
+    }else if(ui->locationCB->currentIndex() < 0){
+        QMessageBox::critical(0, tr("Error"),tr("The item must be in a location."), QMessageBox::Cancel);
+        return;
+    }else if(ui->statusCB->currentIndex() < 0){
+        QMessageBox::critical(0, tr("Error"),tr("The item must have a status."), QMessageBox::Cancel);
+        return;
     }
-    backbone::instance()->query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id) "
-                                        "VALUES (:r, :n, :e, :re, :d, :l)");
+    backbone::instance()->query.prepare("INSERT INTO items (ref, name, entrydate, recorddate, description, location_id, status_id) "
+                                        "VALUES (:r, :n, :e, :re, :d, :l, :s)");
     backbone::instance()->query.bindValue(":r", ui->refLineEdit->text());
     backbone::instance()->query.bindValue(":n", ui->nameLineEdit->text());
     backbone::instance()->query.bindValue(":e", ui->entryDateEdit->text());
     backbone::instance()->query.bindValue(":re", ui->recordDateEdit->text());
     backbone::instance()->query.bindValue(":d", ui->descriptionTextEdit->toPlainText());
-    backbone::instance()->query.bindValue(":l", "1");
+    backbone::instance()->query.bindValue(":l", ui->locationCB->currentText());
+    backbone::instance()->query.bindValue(":s", ui->statusCB->currentText());
     backbone::instance()->query.exec();
 #ifdef DEBUG
-    qDebug() << ":r = {1001}" << "\n:n = {" << ui->nameLineEdit->text() << "}\n:e = {"<<
+    qDebug() << ":r = {" << ui->refLineEdit->text() << "}\n:n = {" << ui->nameLineEdit->text() << "}\n:e = {"<<
             ui->entryDateEdit->text()<<"}\n:re = {" << ui->recordDateEdit->text() << "}\n:d = {" <<
-            ui->descriptionTextEdit->toPlainText() << "}";
+            ui->descriptionTextEdit->toPlainText() << "}\n:l = {" <<
+            ui->locationCB->currentText() << "}\n:s = {" <<
+            ui->statusCB->currentText() << "}";
     qDebug() << "Error = {" << backbone::instance()->query.lastError().text() << "}";
     qDebug() << "Latest query = {" << backbone::instance()->query.executedQuery() << "}";
 #endif
+    if(backbone::instance()->query.lastError().isValid()){
+        QMessageBox::critical(0, tr("Error"),backbone::instance()->query.lastError().text(), QMessageBox::Cancel);
+        return;
+    }
     this->close();
+}
+
+void CreateDialog::overrideRef()
+{
+    ui->refLineEdit->setReadOnly(!ui->refLineEdit->isReadOnly());
+    //(ui->refLineEdit->isEnabled())?ui->refLineEdit->setDisabled(true):ui->refLineEdit->setEnabled(true);
+}
+
+void CreateDialog::dateItem()
+{
+    ui->recordDateEdit->setVisible(ui->dateItemCheckBox->isChecked());
+    ui->dateOnItemLabel->setVisible(ui->dateItemCheckBox->isChecked());
 }

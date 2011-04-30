@@ -9,9 +9,15 @@ TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
     createdialog.cpp \
-    backbone.cpp
+    backbone.cpp \
+    createaddressdialog.cpp \
+    createlocationdialog.cpp
 HEADERS += mainwindow.h \
     createdialog.h \
-    backbone.h
+    backbone.h \
+    createaddressdialog.h \
+    createlocationdialog.h
 FORMS += mainwindow.ui \
-    createdialog.ui
+    createdialog.ui \
+    createaddressdialog.ui \
+    createlocationdialog.ui

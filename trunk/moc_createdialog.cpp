@@ -23,7 +23,7 @@ static const uint qt_meta_data_CreateDialog[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,12 +32,15 @@ static const uint qt_meta_data_CreateDialog[] = {
 
  // slots: signature, parameters, type, tag, flags
       14,   13,   13,   13, 0x08,
+      23,   13,   13,   13, 0x08,
+      37,   13,   13,   13, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_CreateDialog[] = {
-    "CreateDialog\0\0accept()\0"
+    "CreateDialog\0\0accept()\0overrideRef()\0"
+    "dateItem()\0"
 };
 
 const QMetaObject CreateDialog::staticMetaObject = {
@@ -70,9 +73,11 @@ int CreateDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: accept(); break;
+        case 1: overrideRef(); break;
+        case 2: dateItem(); break;
         default: ;
         }
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }

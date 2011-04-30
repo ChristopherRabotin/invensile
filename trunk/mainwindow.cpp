@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createMapper->setMapping(ui->newTagButton,4);
     /* Create mapping */
     /* filter mapping */
-    //connect(ui->newAddressButton,SIGNAL(clicked())),createMapper,SLOT (map());
+    connect(ui->newAddressButton,SIGNAL(clicked()),createMapper,SLOT (map()));
     connect(ui->newItemButton,SIGNAL(clicked()),createMapper,SLOT (map()));
     connect(ui->newLocationButton,SIGNAL(clicked()),createMapper,SLOT (map()));
     connect(ui->newStatusButton,SIGNAL(clicked()),createMapper,SLOT (map()));
@@ -71,14 +71,39 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-QSqlRelationalTableModel *MainWindow::modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol)
+QSqlRelationalTableModel *MainWindow::modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, QList<int> relationCol, QList<QStringList> relationInfo, int sortedCol)
 {
     model = new QSqlRelationalTableModel(this, backbone::instance()->db);
     model->setTable(table);
-    model->setEditStrategy(QSqlTableModel::OnRowChange); // it's the same edit strategy for all views
-    if(relationInfo.length() == 3){
-        model->setRelation(relationCol,QSqlRelation(relationInfo.at(0),relationInfo.at(1),relationInfo.at(2)));
+    model->setEditStrategy(QSqlTableModel::OnFieldChange); // it's the same edit strategy for all views
+    QListIterator<int> relationColIt(relationCol);
+    QListIterator<QStringList> relationInfoIt(relationInfo);
+    QStringList tempRel;
+    while(relationColIt.hasNext() && relationInfoIt.hasNext()){
+        tempRel = relationInfoIt.next();
+        model->setRelation(relationColIt.next(),QSqlRelation(tempRel.at(0),tempRel.at(1),tempRel.at(2)));
     }
+    model->setSort(sortedCol, Qt::AscendingOrder); // all columns are to be sorted in an Ascended fashion
+    for (int i = 0; i < headers.size(); i++){ // populate the headers
+        model->setHeaderData(i, Qt::Horizontal, headers.at(i));
+    }
+    model->select(); // all tables are in select mode
+
+    view->setItemDelegate(new QSqlRelationalDelegate(view));
+    view->setModel(model);
+    view->setSortingEnabled(true);
+    view->setColumnHidden(0,true); // hide the ID column for all tables
+    return model;
+}
+
+QSqlRelationalTableModel *MainWindow::modelViewSetupSimple(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol)
+{
+    model = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    model->setTable(table);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange); // it's the same edit strategy for all views
+    if(relationInfo.length() == 3){
+            model->setRelation(relationCol,QSqlRelation(relationInfo.at(0),relationInfo.at(1),relationInfo.at(2)));
+        }
     model->setSort(sortedCol, Qt::AscendingOrder); // all columns are to be sorted in an Ascended fashion
     for (int i = 0; i < headers.size(); i++){ // populate the headers
         model->setHeaderData(i, Qt::Horizontal, headers.at(i));
@@ -98,6 +123,7 @@ QSqlRelationalTableModel *MainWindow::modelViewSetup(QSqlRelationalTableModel *m
  */
 void MainWindow::onDbLoad()
 {
+    backbone::instance()->query.exec("SELECT id,data FROM information WHERE name = 'program_version'");
     /*QSqlQuery q;
     if(!q.exec("SELECT id,data FROM information WHERE name = 'program_version'")){
         sqlErrorMsg("Program version query", q.lastError());
@@ -115,30 +141,44 @@ void MainWindow::onDbLoad()
     ui->actionRefresh_views->setEnabled(true);
     /* Defining the models */
     /* Item Model and view */
-    QStringList itemHeaders, itemsRelationInfo;
-    itemHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Entry date") << tr("Record date") << tr("Description") << tr("Access date") << tr("QR Code") << tr("Location");
-    itemsRelationInfo << "locations" << "id" << "name";
-    itemModel = modelViewSetup(itemModel,ui->itemsView,"items",itemHeaders,8,itemsRelationInfo,3);
+    QStringList itemHeaders, itemsRelationInfo1,itemsRelationInfo2;
+    QList<QStringList> itemsRelationInfoL;
+    QList<int> itemRelationCol;
+    itemHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Entry date") << tr("Record date") << tr("Description") << tr("Access date") << tr("QR Code") << tr("Location") << tr("Status");
+    itemsRelationInfo1 << "locations" << "id" << "name";
+    itemsRelationInfo2 << "statuses" << "id" << "name";
+    itemRelationCol << 8 << 9;
+    itemsRelationInfoL << itemsRelationInfo1 << itemsRelationInfo2;
+    itemModel = modelViewSetup(itemModel,ui->itemsView,"items",itemHeaders,itemRelationCol,itemsRelationInfoL,3);
+    //itemModel->setRelation(9,QSqlRelation("statuses","id","name"));
     /* Location Model and view */
     QStringList locationHeaders, locationsRelationInfo;
-    locationHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Creation date") << tr("Closing date") << tr("Access date") << tr("Description") << tr("Address");
+    locationHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Creation date") << tr("Closing date") << tr("Access date") << tr("Description") << tr("Address") << tr("Location") << tr("Status") ;
     locationsRelationInfo << "addresses" << "id" << "name";
-    locationModel = modelViewSetup(locationModel,ui->locationsView,"locations",locationHeaders,7,locationsRelationInfo,3);
+    locationModel = modelViewSetupSimple(locationModel,ui->locationsView,"locations",locationHeaders,7,locationsRelationInfo,3);
+    locationModel->setRelation(8,QSqlRelation("locations","id","name"));
+    locationModel->setRelation(9,QSqlRelation("statuses","id","name"));
     /* Address Model and view */
     QStringList addressHeaders, addressesRelationInfo;
-    addressHeaders << tr("ID") << tr("Name") << tr("Country") << tr("Town") << tr("Postal code") << tr("Street") << tr("Reference");
+    addressHeaders << tr("ID") << tr("Name") << tr("Country") << tr("Town") << tr("Postal code") << tr("Street") << tr("Reference") << tr("Status");
     addressesRelationInfo << ""; // we don't put anything here because there is not relation.
-    addressModel = modelViewSetup(addressModel,ui->addressesView,"addresses",addressHeaders,-1,addressesRelationInfo,1);
+    addressModel = modelViewSetupSimple(addressModel,ui->addressesView,"addresses",addressHeaders,-1,addressesRelationInfo,1);
+    addressModel->setRelation(7,QSqlRelation("statuses","id","name"));
     /* Tag Model and view */
     QStringList tagHeaders, tagsRelationInfo;
     tagHeaders << tr("ID") << tr("Name");
     tagsRelationInfo << ""; // we don't put anything here because there is not relation.
-    tagModel = modelViewSetup(tagModel,ui->tagsView,"tags",addressHeaders,-1,addressesRelationInfo,1);
+    tagModel = modelViewSetupSimple(tagModel,ui->tagsView,"tags",addressHeaders,-1,addressesRelationInfo,1);
     /* Status Model and view */
     QStringList statusHeaders, statusesRelationInfo;
     statusHeaders << tr("ID") << tr("Name") << tr("Background color") << tr("Foreground color");
     statusesRelationInfo << ""; // we don't put anything here because there is not relation.
-    statusModel = modelViewSetup(statusModel,ui->statusesView,"statuses",statusHeaders,-1,statusesRelationInfo,1);
+    statusModel = modelViewSetupSimple(statusModel,ui->statusesView,"statuses",statusHeaders,-1,statusesRelationInfo,1);
+    /* Search Model and view */
+    QStringList searchHeaders, searchRelationInfo;
+    searchHeaders << tr("Reference") << tr("Name") << tr("Type");
+    searchRelationInfo << ""; // we don't put anything here because there is not relation.
+    searchModel = modelViewSetupSimple(searchModel,ui->searchView,"items,locations,addresses",searchHeaders,-1,searchRelationInfo,1);
 }
 
 void MainWindow::newDb()
@@ -180,9 +220,17 @@ void MainWindow::modify()
 void MainWindow::create(int createWhat)
 {
     switch(createWhat){
+    case 0:
+        createAddressDialog = new CreateAddressDialog();
+        createAddressDialog->show();
+        break;
     case 1:
         createDialog = new CreateDialog();
         createDialog->show();
+        break;
+    case 2:
+        createLocationDialog = new CreateLocationDialog();
+        createLocationDialog->show();
         break;
     }
 }
@@ -218,6 +266,10 @@ void MainWindow::filterView(int filterNumber){
         name = "tags"; model = tagModel; filter = ui->filterTagsEdit->text();
         query << "name";
         break;
+    case 5:
+        name = "addresses,locations,items"; model = searchModel; filter = ui->filterSearchEdit->text();
+        query << "name" << "ref";
+        break;
     }
 
     /* The following line prevent SQL injections */
@@ -227,7 +279,6 @@ void MainWindow::filterView(int filterNumber){
         filterQuery.append(name+"."+qIt.next()+ " LIKE '%"+filter+"%' OR ");
     }
     filterQuery.chop(3); // remove the trailing 'OR '
-//    filterQuery = "ref LIKE %";
 #ifdef DEBUG
     qDebug() << "Filtering"<< name << "with [" << filterQuery << "]";
 #endif

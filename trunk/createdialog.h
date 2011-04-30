@@ -2,9 +2,7 @@
 #define CREATEDIALOG_H
 
 #include <QDialog>
-#include <QSqlQuery>
 #include <QDebug>
-#include <QSqlError>
 #include <QMessageBox>
 #include <QSqlRelationalTableModel>
 #include <QSqlRelationalDelegate>
@@ -19,7 +17,6 @@ class CreateDialog : public QDialog {
 public:
     CreateDialog(QWidget *parent = 0);
     ~CreateDialog();
-    QSqlQuery query;
 
 protected:
     void changeEvent(QEvent *e);
@@ -29,6 +26,8 @@ private:
 
 private slots:
     void accept();
+    void overrideRef();
+    void dateItem();
 };
 
 #endif // CREATEDIALOG_H

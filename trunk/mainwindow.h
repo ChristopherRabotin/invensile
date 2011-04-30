@@ -16,6 +16,8 @@
 #include <QTableView>
 /* Project includes */
 #include "createdialog.h"
+#include "createaddressdialog.h"
+#include "createlocationdialog.h"
 #include "backbone.h"
 
 #define VERSION 0.1
@@ -42,12 +44,15 @@ private:
     // variables
     Ui::MainWindow *ui;
     QSqlQuery *latestQuery;
-    QSqlRelationalTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel;
+    QSqlRelationalTableModel *tagModel, *statusModel, *addressModel, *locationModel, *itemModel, *searchModel;
     // functions and methods
     void onDbLoad();
-    QSqlRelationalTableModel* modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol);
+    QSqlRelationalTableModel* modelViewSetup(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, QList<int> relationCol, QList<QStringList> relationInfo, int sortedCol);
+    QSqlRelationalTableModel* modelViewSetupSimple(QSqlRelationalTableModel *model, QTableView *view, QString table, QStringList headers, int relationCol, QStringList relationInfo, int sortedCol);
     /* Other dialogs */
     CreateDialog *createDialog;
+    CreateAddressDialog *createAddressDialog;
+    CreateLocationDialog *createLocationDialog;
 
 private slots:
     /* File slots */
