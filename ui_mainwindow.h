@@ -85,6 +85,11 @@ public:
     QPushButton *modifyStatusButton;
     QPushButton *deleteStatusButton;
     QWidget *searchTab;
+    QVBoxLayout *verticalLayout_2;
+    QHBoxLayout *horizontalLayout_13;
+    QLabel *label_6;
+    QLineEdit *filterSearchEdit;
+    QTableView *searchView;
     QWidget *addressesTab;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_8;
@@ -325,6 +330,31 @@ public:
         tabWidget->addTab(informationTab, QString());
         searchTab = new QWidget();
         searchTab->setObjectName(QString::fromUtf8("searchTab"));
+        verticalLayout_2 = new QVBoxLayout(searchTab);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
+        label_6 = new QLabel(searchTab);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+
+        horizontalLayout_13->addWidget(label_6);
+
+        filterSearchEdit = new QLineEdit(searchTab);
+        filterSearchEdit->setObjectName(QString::fromUtf8("filterSearchEdit"));
+
+        horizontalLayout_13->addWidget(filterSearchEdit);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_13);
+
+        searchView = new QTableView(searchTab);
+        searchView->setObjectName(QString::fromUtf8("searchView"));
+
+        verticalLayout_2->addWidget(searchView);
+
         tabWidget->addTab(searchTab, QString());
         addressesTab = new QWidget();
         addressesTab->setObjectName(QString::fromUtf8("addressesTab"));
@@ -528,7 +558,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
 
-        tabWidget->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -595,13 +625,13 @@ public:
 #endif // QT_NO_TOOLTIP
         actionAddress->setShortcut(QApplication::translate("MainWindow", "Alt+C, A", 0, QApplication::UnicodeUTF8));
         actionPreferences->setText(QApplication::translate("MainWindow", "Preferences", 0, QApplication::UnicodeUTF8));
-        actionPreferences->setShortcut(QApplication::translate("MainWindow", "F5", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
         actionStatus->setText(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));
         actionStatus->setShortcut(QApplication::translate("MainWindow", "Alt+C, S", 0, QApplication::UnicodeUTF8));
         actionTag->setText(QApplication::translate("MainWindow", "Tag", 0, QApplication::UnicodeUTF8));
         actionTag->setShortcut(QApplication::translate("MainWindow", "Alt+C, T", 0, QApplication::UnicodeUTF8));
         actionRefresh_views->setText(QApplication::translate("MainWindow", "Refresh views", 0, QApplication::UnicodeUTF8));
+        actionRefresh_views->setShortcut(QApplication::translate("MainWindow", "F5", 0, QApplication::UnicodeUTF8));
         followUpBox->setTitle(QApplication::translate("MainWindow", "Follow ups", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Mark as correct", 0, QApplication::UnicodeUTF8));
         pushButton_2->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
@@ -622,6 +652,7 @@ public:
         modifyStatusButton->setText(QApplication::translate("MainWindow", "Modify status", 0, QApplication::UnicodeUTF8));
         deleteStatusButton->setText(QApplication::translate("MainWindow", "Delete status", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(informationTab), QApplication::translate("MainWindow", "Information", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(searchTab), QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Filter addresses", 0, QApplication::UnicodeUTF8));
         newAddressButton->setText(QApplication::translate("MainWindow", "New address", 0, QApplication::UnicodeUTF8));
