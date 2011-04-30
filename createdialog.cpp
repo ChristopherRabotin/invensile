@@ -37,9 +37,10 @@ CreateDialog::CreateDialog(QWidget *parent) :
     /* Set up status model */
     ui->statusCB->clear();
     QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    statusModel->setTable("statuses");
+    statusModel->setTable("items");
     statusModel->setRelation(9,QSqlRelation("statuses", "id", "name"));
     statusModel->select();
+    qDebug() << "Status valid " << statusModel->relation(9).isValid();
     ui->statusCB->setModel(statusModel);
     /* Signals */
     connect(ui->overrideCheckBox,SIGNAL(clicked()),this,SLOT(overrideRef()));

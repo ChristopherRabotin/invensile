@@ -26,7 +26,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="refLineEdit"/>
+        <widget class="QLineEdit" name="refLineEdit">
+         <property name="maxLength">
+          <number>5</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
