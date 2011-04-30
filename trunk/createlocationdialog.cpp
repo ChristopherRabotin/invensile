@@ -17,21 +17,21 @@ CreateLocationDialog::CreateLocationDialog(QWidget *parent) :
     ui->addressCB->clear();
     QSqlRelationalTableModel *addressModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
     addressModel->setTable("addresses");
-    addressModel->setRelation(7,QSqlRelation("addresses", "id", "name"));
+    addressModel->setRelation(0,QSqlRelation("addresses", "id", "name"));
     addressModel->select();
     ui->addressCB->setModel(addressModel);
     /* Set up location model */
     ui->locationCB->clear();
     QSqlRelationalTableModel *locationModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
     locationModel->setTable("locations");
-    locationModel->setRelation(8,QSqlRelation("locations", "id", "name"));
+    locationModel->setRelation(0,QSqlRelation("locations", "id", "name"));
     locationModel->select();
     ui->locationCB->setModel(locationModel);
     /* Set up status model */
     ui->statusCB->clear();
     QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
     statusModel->setTable("statuses");
-    statusModel->setRelation(9,QSqlRelation("statuses", "id", "name"));
+    statusModel->setRelation(0,QSqlRelation("statuses", "id", "name"));
     statusModel->select();
     ui->statusCB->setModel(statusModel);
     /* Signals */

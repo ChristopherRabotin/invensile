@@ -10,7 +10,7 @@ CreateAddressDialog::CreateAddressDialog(QWidget *parent) :
     ui->statusCB->clear();
     QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
     statusModel->setTable("addresses");
-    statusModel->setRelation(7,QSqlRelation("statuses", "id", "name"));
+    statusModel->setRelation(0,QSqlRelation("statuses", "id", "name"));
     statusModel->select();
     ui->statusCB->setModel(statusModel);
 }
