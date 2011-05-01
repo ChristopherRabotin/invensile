@@ -37,20 +37,20 @@ public:
     QLabel *nameLabel;
     QLineEdit *nameLineEdit;
     QHBoxLayout *horizontalLayout_3;
-    QLabel *label_3;
+    QLabel *statusLabel;
     QComboBox *statusCB;
     QHBoxLayout *horizontalLayout_8;
-    QLabel *label;
+    QLabel *streetLabel;
     QLineEdit *streetLineEdit;
     QHBoxLayout *horizontalLayout_9;
     QHBoxLayout *horizontalLayout_7;
-    QLabel *label_2;
+    QLabel *townLabel;
     QLineEdit *townLineEdit;
     QHBoxLayout *horizontalLayout_6;
-    QLabel *label_4;
+    QLabel *postalCodeLabel;
     QLineEdit *postalCodeLineEdit;
     QHBoxLayout *horizontalLayout_5;
-    QLabel *label_5;
+    QLabel *countryLabel;
     QLineEdit *countryLineEdit;
     QDialogButtonBox *buttonBox;
 
@@ -97,10 +97,10 @@ public:
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        label_3 = new QLabel(CreateAddressDialog);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
+        statusLabel = new QLabel(CreateAddressDialog);
+        statusLabel->setObjectName(QString::fromUtf8("statusLabel"));
 
-        horizontalLayout_3->addWidget(label_3);
+        horizontalLayout_3->addWidget(statusLabel);
 
         statusCB = new QComboBox(CreateAddressDialog);
         statusCB->setObjectName(QString::fromUtf8("statusCB"));
@@ -115,10 +115,10 @@ public:
 
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
-        label = new QLabel(CreateAddressDialog);
-        label->setObjectName(QString::fromUtf8("label"));
+        streetLabel = new QLabel(CreateAddressDialog);
+        streetLabel->setObjectName(QString::fromUtf8("streetLabel"));
 
-        horizontalLayout_8->addWidget(label);
+        horizontalLayout_8->addWidget(streetLabel);
 
         streetLineEdit = new QLineEdit(CreateAddressDialog);
         streetLineEdit->setObjectName(QString::fromUtf8("streetLineEdit"));
@@ -132,10 +132,10 @@ public:
         horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
-        label_2 = new QLabel(CreateAddressDialog);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
+        townLabel = new QLabel(CreateAddressDialog);
+        townLabel->setObjectName(QString::fromUtf8("townLabel"));
 
-        horizontalLayout_7->addWidget(label_2);
+        horizontalLayout_7->addWidget(townLabel);
 
         townLineEdit = new QLineEdit(CreateAddressDialog);
         townLineEdit->setObjectName(QString::fromUtf8("townLineEdit"));
@@ -147,10 +147,10 @@ public:
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
-        label_4 = new QLabel(CreateAddressDialog);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
+        postalCodeLabel = new QLabel(CreateAddressDialog);
+        postalCodeLabel->setObjectName(QString::fromUtf8("postalCodeLabel"));
 
-        horizontalLayout_6->addWidget(label_4);
+        horizontalLayout_6->addWidget(postalCodeLabel);
 
         postalCodeLineEdit = new QLineEdit(CreateAddressDialog);
         postalCodeLineEdit->setObjectName(QString::fromUtf8("postalCodeLineEdit"));
@@ -165,10 +165,10 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        label_5 = new QLabel(CreateAddressDialog);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
+        countryLabel = new QLabel(CreateAddressDialog);
+        countryLabel->setObjectName(QString::fromUtf8("countryLabel"));
 
-        horizontalLayout_5->addWidget(label_5);
+        horizontalLayout_5->addWidget(countryLabel);
 
         countryLineEdit = new QLineEdit(CreateAddressDialog);
         countryLineEdit->setObjectName(QString::fromUtf8("countryLineEdit"));
@@ -201,11 +201,11 @@ public:
 #endif // QT_NO_TOOLTIP
         refLabel->setText(QApplication::translate("CreateAddressDialog", "Reference", 0, QApplication::UnicodeUTF8));
         nameLabel->setText(QApplication::translate("CreateAddressDialog", "Name", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("CreateAddressDialog", "Status", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("CreateAddressDialog", "Street", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("CreateAddressDialog", "Town", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("CreateAddressDialog", "Postal code", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("CreateAddressDialog", "Country", 0, QApplication::UnicodeUTF8));
+        statusLabel->setText(QApplication::translate("CreateAddressDialog", "Status", 0, QApplication::UnicodeUTF8));
+        streetLabel->setText(QApplication::translate("CreateAddressDialog", "Street", 0, QApplication::UnicodeUTF8));
+        townLabel->setText(QApplication::translate("CreateAddressDialog", "Town", 0, QApplication::UnicodeUTF8));
+        postalCodeLabel->setText(QApplication::translate("CreateAddressDialog", "Postal code", 0, QApplication::UnicodeUTF8));
+        countryLabel->setText(QApplication::translate("CreateAddressDialog", "Country", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -140,6 +140,7 @@ void MainWindow::onDbLoad()
     ui->actionClose->setEnabled(true);
     ui->actionRefresh_views->setEnabled(true);
     /* Defining the models */
+
     /* Item Model and view */
     QStringList itemHeaders, itemsRelationInfo1,itemsRelationInfo2;
     QList<QStringList> itemsRelationInfoL;
@@ -150,20 +151,25 @@ void MainWindow::onDbLoad()
     itemRelationCol << 8 << 9;
     itemsRelationInfoL << itemsRelationInfo1 << itemsRelationInfo2;
     itemModel = modelViewSetup(itemModel,ui->itemsView,"items",itemHeaders,itemRelationCol,itemsRelationInfoL,3);
-    //itemModel->setRelation(9,QSqlRelation("statuses","id","name"));
+
     /* Location Model and view */
-    QStringList locationHeaders, locationsRelationInfo;
+    QStringList locationHeaders, locationsRelationInfo1,locationsRelationInfo2, locationsRelationInfo3;
+    QList<QStringList> locationsRelationInfoL;
+    QList<int> locationRelationCol;
+    locationRelationCol << 7 << 8 << 9;
+    locationsRelationInfo1 << "addresses" << "id" << "name";
+    locationsRelationInfo2 << "locations" << "id" << "name";
+    locationsRelationInfo3 << "statuses" << "id" << "name";
+    locationsRelationInfoL << locationsRelationInfo1 << locationsRelationInfo2 << locationsRelationInfo3;
     locationHeaders << tr("ID") << tr("Reference") << tr("Name") << tr("Creation date") << tr("Closing date") << tr("Access date") << tr("Description") << tr("Address") << tr("Location") << tr("Status") ;
-    locationsRelationInfo << "addresses" << "id" << "name";
-    locationModel = modelViewSetupSimple(locationModel,ui->locationsView,"locations",locationHeaders,7,locationsRelationInfo,3);
-    locationModel->setRelation(8,QSqlRelation("locations","id","name"));
-    locationModel->setRelation(9,QSqlRelation("statuses","id","name"));
+    locationModel = modelViewSetup(locationModel,ui->locationsView,"locations",locationHeaders,locationRelationCol,locationsRelationInfoL,3);
+
     /* Address Model and view */
     QStringList addressHeaders, addressesRelationInfo;
     addressHeaders << tr("ID") << tr("Name") << tr("Country") << tr("Town") << tr("Postal code") << tr("Street") << tr("Reference") << tr("Status");
-    addressesRelationInfo << ""; // we don't put anything here because there is not relation.
-    addressModel = modelViewSetupSimple(addressModel,ui->addressesView,"addresses",addressHeaders,-1,addressesRelationInfo,1);
-    addressModel->setRelation(7,QSqlRelation("statuses","id","name"));
+    addressesRelationInfo << "statuses" << "id" << "name";
+    addressModel = modelViewSetupSimple(addressModel,ui->addressesView,"addresses",addressHeaders,7,addressesRelationInfo,1);
+
     /* Tag Model and view */
     QStringList tagHeaders, tagsRelationInfo;
     tagHeaders << tr("ID") << tr("Name");

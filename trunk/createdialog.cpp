@@ -30,15 +30,15 @@ CreateDialog::CreateDialog(QWidget *parent) :
     /* Set up location model */
     ui->locationCB->clear();
     QSqlRelationalTableModel *locationModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    locationModel->setTable("items");
-    locationModel->setRelation(8,QSqlRelation("locations", "id", "name"));
+    locationModel->setTable("locations");
+    locationModel->setRelation(0,QSqlRelation("locations", "id", "name"));
     locationModel->select();
     ui->locationCB->setModel(locationModel);
     /* Set up status model */
     ui->statusCB->clear();
     QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    statusModel->setTable("items");
-    statusModel->setRelation(9,QSqlRelation("statuses", "id", "name"));
+    statusModel->setTable("statuses");
+    statusModel->setRelation(0,QSqlRelation("statuses", "id", "name"));
     statusModel->select();
     qDebug() << "Status valid " << statusModel->relation(9).isValid();
     ui->statusCB->setModel(statusModel);

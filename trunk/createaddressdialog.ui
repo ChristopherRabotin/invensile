@@ -57,7 +57,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="statusLabel">
          <property name="text">
           <string>Status</string>
          </property>
@@ -73,7 +73,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="streetLabel">
        <property name="text">
         <string>Street</string>
        </property>
@@ -89,7 +89,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="townLabel">
          <property name="text">
           <string>Town</string>
          </property>
@@ -103,7 +103,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="postalCodeLabel">
          <property name="text">
           <string>Postal code</string>
          </property>
@@ -119,7 +119,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="countryLabel">
        <property name="text">
         <string>Country</string>
        </property>
