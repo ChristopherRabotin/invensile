@@ -6,13 +6,33 @@ CreateAddressDialog::CreateAddressDialog(QWidget *parent) :
     ui(new Ui::CreateAddressDialog)
 {
     ui->setupUi(this);
+    /* Set up "buddies" */
+    ui->nameLabel->setBuddy(ui->nameLineEdit);
+    ui->refLabel->setBuddy(ui->refLineEdit);
+    ui->townLabel->setBuddy(ui->townLineEdit);
+    ui->streetLabel->setBuddy(ui->streetLineEdit);
+    ui->countryLabel->setBuddy(ui->countryLineEdit);
+    ui->postalCodeLabel->setBuddy(ui->postalCodeLineEdit);
+    ui->statusLabel->setBuddy(ui->statusCB);
+
     /* Set up status model */
     ui->statusCB->clear();
-    QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
+    statusModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     statusModel->setTable("addresses");
-    statusModel->setRelation(0,QSqlRelation("statuses", "id", "name"));
+    int statusFieldId = statusModel->fieldIndex("status_id");
+    /***** Warning: after next instruction fieldIndex('status_id') will return -1. */
+    statusModel->setRelation(statusFieldId,QSqlRelation("statuses", "id", "name"));
     statusModel->select();
-    ui->statusCB->setModel(statusModel);
+    relModel = statusModel->relationModel(statusFieldId);
+    ui->statusCB->setModel(relModel);
+    ui->statusCB->setModelColumn(relModel->fieldIndex("name"));
+    mapper = new QDataWidgetMapper(this);
+    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper->setModel(statusModel);
+    mapper->addMapping(ui->refLineEdit, statusModel->fieldIndex("ref"));
+    mapper->addMapping(ui->nameLineEdit, statusModel->fieldIndex("name"));
+    mapper->addMapping(ui->statusCB, statusFieldId);
 }
 
 CreateAddressDialog::~CreateAddressDialog()
@@ -44,7 +64,8 @@ void CreateAddressDialog::accept()
         QMessageBox::critical(0, tr("Error"),tr("The item must have a status."), QMessageBox::Cancel);
         return;
     }
-    backbone::instance()->query.prepare("INSERT INTO addresses (ref, name, country, town, postal_code, street, status_id) "
+    qDebug() << mapper->submit();
+    /*backbone::instance()->query.prepare("INSERT INTO addresses (ref, name, country, town, postal_code, street, status_id) "
                                         "VALUES (:r, :n, :c, :t, :p, :st, :s)");
     backbone::instance()->query.bindValue(":r", ui->refLineEdit->text());
     backbone::instance()->query.bindValue(":n", ui->nameLineEdit->text());
@@ -61,6 +82,6 @@ void CreateAddressDialog::accept()
     if(backbone::instance()->query.lastError().isValid()){
         QMessageBox::critical(0, tr("Error"),backbone::instance()->query.lastError().text(), QMessageBox::Cancel);
         return;
-    }
+    }*/
     this->close();
 }

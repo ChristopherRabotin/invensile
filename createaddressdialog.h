@@ -4,8 +4,10 @@
 #include <QDialog>
 #include <QDebug>
 #include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
 #include <QSqlRelation>
 #include <QMessageBox>
+#include <QDataWidgetMapper>
 #include "backbone.h"
 
 namespace Ui {
@@ -23,6 +25,9 @@ protected:
 
 private:
     Ui::CreateAddressDialog *ui;
+    QDataWidgetMapper *mapper;
+    QSqlRelationalTableModel *statusModel;
+    QSqlTableModel *relModel;
 
 private slots:
     void accept();
