@@ -80,13 +80,13 @@
     <value type="QString">COLORTERM=1</value>
     <value type="QString">CPU=i686</value>
     <value type="QString">CSHEDIT=emacs</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-lFxslYZNr4,guid=4f565a2d07d7ce51c9f9523b0000005f</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-tb55TYLS6B,guid=50aa1bf0eacb75a88b73e38700000027</value>
     <value type="QString">DESKTOP_SESSION=default</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString">ENV=/etc/bash.bashrc</value>
     <value type="QString">FROM_HEADER=</value>
-    <value type="QString">GPG_AGENT_INFO=/tmp/gpg-NFIENZ/S.gpg-agent:2306:1</value>
+    <value type="QString">GPG_AGENT_INFO=/tmp/gpg-05mk5V/S.gpg-agent:1596:1</value>
     <value type="QString">GS_LIB=/home/chris/.fonts</value>
     <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/chris/.gtkrc-2.0-kde4:/home/chris/.gtkrc-2.0-qtengine:/home/chris/.gtkrc-2.0:/home/chris/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_IM_MODULE=cedilla</value>
@@ -95,8 +95,8 @@
     <value type="QString">G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
     <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/chris</value>
-    <value type="QString">HOST=lnx.domain</value>
-    <value type="QString">HOSTNAME=lnx.domain</value>
+    <value type="QString">HOST=lnx</value>
+    <value type="QString">HOSTNAME=lnx</value>
     <value type="QString">HOSTTYPE=i386</value>
     <value type="QString">INPUTRC=/home/chris/.inputrc</value>
     <value type="QString">JAVA_BINDIR=/usr/lib/jvm/jre/bin</value>
@@ -109,7 +109,6 @@
     <value type="QString">KDE_SESSION_UID=1000</value>
     <value type="QString">KDE_SESSION_VERSION=4</value>
     <value type="QString">LANG=en_US.UTF-8</value>
-    <value type="QString">LANGUAGE=</value>
     <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
     <value type="QString">LESS=-M -I -R</value>
     <value type="QString">LESSCLOSE=lessclose.sh %s %s</value>
@@ -127,7 +126,7 @@
     <value type="QString">NNTPSERVER=news</value>
     <value type="QString">OSTYPE=linux</value>
     <value type="QString">PAGER=less</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/opt/kde3/bin:/usr/lib/jvm/jre/bin</value>
+    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/opt/kde3/bin:/usr/lib/jvm/jre/bin:/usr/lib/mit/bin</value>
     <value type="QString">PROFILEREAD=true</value>
     <value type="QString">PWD=/data/Documents</value>
     <value type="QString">PYTHONSTARTUP=/etc/pythonstart</value>
@@ -136,21 +135,24 @@
     <value type="QString">QT_IM_SWITCHER=imsw-multi</value>
     <value type="QString">QT_PLUGIN_PATH=/home/chris/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString">QT_SYSTEM_DIR=/usr/share/desktop-data</value>
-    <value type="QString">SESSION_MANAGER=local/lnx.domain:@/tmp/.ICE-unix/2424,unix/lnx.domain:/tmp/.ICE-unix/2424</value>
+    <value type="QString">SESSION_MANAGER=local/lnx:@/tmp/.ICE-unix/1995,unix/lnx:/tmp/.ICE-unix/1995</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=1</value>
+    <value type="QString">SSH_AGENT_PID=1597</value>
+    <value type="QString">SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-kZkuA1512/agent.1512</value>
     <value type="QString">TERM=xterm</value>
     <value type="QString">TMPDIR=/tmp</value>
     <value type="QString">USER=chris</value>
     <value type="QString">USE_FAM=</value>
     <value type="QString">WINDOWMANAGER=/usr/bin/startkde</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XAUTHLOCALHOSTNAME=lnx.domain</value>
+    <value type="QString">XAUTHLOCALHOSTNAME=lnx</value>
     <value type="QString">XCURSOR_THEME=Oxygen_White</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=b2e56319d428f9d142adb0634aef416d-1302279616.446821-2094352797</value>
-    <value type="QString">XDM_MANAGED=method=classic</value>
+    <value type="QString">XDG_SESSION_COOKIE=b2e56319d428f9d142adb0634aef416d-1304308275.828213-1250189879</value>
+    <value type="QString">XDM_MANAGED=method=classic,auto</value>
     <value type="QString">XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString">XMODIFIERS=@im=local</value>
     <value type="QString">XNLSPATH=/usr/share/X11/nls</value>
@@ -176,13 +178,13 @@
     <value type="QString">COLORTERM=1</value>
     <value type="QString">CPU=i686</value>
     <value type="QString">CSHEDIT=emacs</value>
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-lFxslYZNr4,guid=4f565a2d07d7ce51c9f9523b0000005f</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-tb55TYLS6B,guid=50aa1bf0eacb75a88b73e38700000027</value>
     <value type="QString">DESKTOP_SESSION=default</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString">ENV=/etc/bash.bashrc</value>
     <value type="QString">FROM_HEADER=</value>
-    <value type="QString">GPG_AGENT_INFO=/tmp/gpg-NFIENZ/S.gpg-agent:2306:1</value>
+    <value type="QString">GPG_AGENT_INFO=/tmp/gpg-05mk5V/S.gpg-agent:1596:1</value>
     <value type="QString">GS_LIB=/home/chris/.fonts</value>
     <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/chris/.gtkrc-2.0-kde4:/home/chris/.gtkrc-2.0-qtengine:/home/chris/.gtkrc-2.0:/home/chris/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_IM_MODULE=cedilla</value>
@@ -191,8 +193,8 @@
     <value type="QString">G_FILENAME_ENCODING=@locale,UTF-8,ISO-8859-15,CP1252</value>
     <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/chris</value>
-    <value type="QString">HOST=lnx.domain</value>
-    <value type="QString">HOSTNAME=lnx.domain</value>
+    <value type="QString">HOST=lnx</value>
+    <value type="QString">HOSTNAME=lnx</value>
     <value type="QString">HOSTTYPE=i386</value>
     <value type="QString">INPUTRC=/home/chris/.inputrc</value>
     <value type="QString">JAVA_BINDIR=/usr/lib/jvm/jre/bin</value>
@@ -205,7 +207,6 @@
     <value type="QString">KDE_SESSION_UID=1000</value>
     <value type="QString">KDE_SESSION_VERSION=4</value>
     <value type="QString">LANG=en_US.UTF-8</value>
-    <value type="QString">LANGUAGE=</value>
     <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
     <value type="QString">LESS=-M -I -R</value>
     <value type="QString">LESSCLOSE=lessclose.sh %s %s</value>
@@ -223,7 +224,7 @@
     <value type="QString">NNTPSERVER=news</value>
     <value type="QString">OSTYPE=linux</value>
     <value type="QString">PAGER=less</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/opt/kde3/bin:/usr/lib/jvm/jre/bin</value>
+    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/opt/kde3/bin:/usr/lib/jvm/jre/bin:/usr/lib/mit/bin</value>
     <value type="QString">PROFILEREAD=true</value>
     <value type="QString">PWD=/data/Documents</value>
     <value type="QString">PYTHONSTARTUP=/etc/pythonstart</value>
@@ -232,21 +233,24 @@
     <value type="QString">QT_IM_SWITCHER=imsw-multi</value>
     <value type="QString">QT_PLUGIN_PATH=/home/chris/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString">QT_SYSTEM_DIR=/usr/share/desktop-data</value>
-    <value type="QString">SESSION_MANAGER=local/lnx.domain:@/tmp/.ICE-unix/2424,unix/lnx.domain:/tmp/.ICE-unix/2424</value>
+    <value type="QString">SESSION_MANAGER=local/lnx:@/tmp/.ICE-unix/1995,unix/lnx:/tmp/.ICE-unix/1995</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=1</value>
+    <value type="QString">SSH_AGENT_PID=1597</value>
+    <value type="QString">SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-kZkuA1512/agent.1512</value>
     <value type="QString">TERM=xterm</value>
     <value type="QString">TMPDIR=/tmp</value>
     <value type="QString">USER=chris</value>
     <value type="QString">USE_FAM=</value>
     <value type="QString">WINDOWMANAGER=/usr/bin/startkde</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XAUTHLOCALHOSTNAME=lnx.domain</value>
+    <value type="QString">XAUTHLOCALHOSTNAME=lnx</value>
     <value type="QString">XCURSOR_THEME=Oxygen_White</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/etc/opt/kde3/share:/opt/kde3/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=b2e56319d428f9d142adb0634aef416d-1302279616.446821-2094352797</value>
-    <value type="QString">XDM_MANAGED=method=classic</value>
+    <value type="QString">XDG_SESSION_COOKIE=b2e56319d428f9d142adb0634aef416d-1304308275.828213-1250189879</value>
+    <value type="QString">XDM_MANAGED=method=classic,auto</value>
     <value type="QString">XKEYSYMDB=/usr/share/X11/XKeysymDB</value>
     <value type="QString">XMODIFIERS=@im=local</value>
     <value type="QString">XNLSPATH=/usr/share/X11/nls</value>

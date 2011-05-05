@@ -18,21 +18,27 @@ CreateAddressDialog::CreateAddressDialog(QWidget *parent) :
     /* Set up status model */
     ui->statusCB->clear();
     statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    statusModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    statusModel->setEditStrategy(QSqlTableModel::OnFieldChange);
     statusModel->setTable("addresses");
     int statusFieldId = statusModel->fieldIndex("status_id");
-    /***** Warning: after next instruction fieldIndex('status_id') will return -1. */
     statusModel->setRelation(statusFieldId,QSqlRelation("statuses", "id", "name"));
+    statusModel->setSort(1, Qt::AscendingOrder); // all columns are to be sorted in an Ascended fashion
     statusModel->select();
     relModel = statusModel->relationModel(statusFieldId);
     ui->statusCB->setModel(relModel);
     ui->statusCB->setModelColumn(relModel->fieldIndex("name"));
     mapper = new QDataWidgetMapper(this);
-    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
     mapper->setModel(statusModel);
+    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
     mapper->addMapping(ui->refLineEdit, statusModel->fieldIndex("ref"));
     mapper->addMapping(ui->nameLineEdit, statusModel->fieldIndex("name"));
     mapper->addMapping(ui->statusCB, statusFieldId);
+    mapper->addMapping(ui->countryLineEdit, statusModel->fieldIndex("country"));
+    mapper->addMapping(ui->townLineEdit, statusModel->fieldIndex("town"));
+    mapper->addMapping(ui->postalCodeLineEdit, statusModel->fieldIndex("postal_code"));
+    mapper->addMapping(ui->streetLineEdit, statusModel->fieldIndex("street"));
+
 }
 
 CreateAddressDialog::~CreateAddressDialog()
