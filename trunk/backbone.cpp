@@ -29,7 +29,7 @@ bool backbone::newDb(QString dbFile)
     qList.append("INSERT INTO 'statuses' (name, fgcolor) VALUES ('Destroyed','777777')");
     qList.append("INSERT INTO 'statuses' (name, bgcolor, fgcolor) VALUES ('Lost','ff0000','000000')");
     /* to use color: QColor::name() , get the value and prepend with '#' */
-    qList.append("INSERT INTO 'information' (name,data) VALUES ('database_version','0.1')");
+    qList.append("INSERT INTO 'information' (name,data) VALUES ('database_version','0.9')");
     qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_access_date',date('now'))");
     qList.append("INSERT INTO 'information' (name,data) VALUES ('latest_modification_date',date('now'));");
     qList.append("INSERT INTO 'information' (name,data) VALUES ('creation_date',date('now'));");
