@@ -16,7 +16,8 @@ HEADERS += mainwindow.h \
     createdialog.h \
     backbone.h \
     createaddressdialog.h \
-    createlocationdialog.h
+    createlocationdialog.h \
+    SqlRelationalTableModel.h
 FORMS += mainwindow.ui \
     createdialog.ui \
     createaddressdialog.ui \

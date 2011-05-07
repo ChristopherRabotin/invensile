@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QSqlRelationalTableModel>
 #include <QSqlRelationalDelegate>
+#include <QDataWidgetMapper>
 #include "backbone.h"
 #define DEBUG
 namespace Ui {
@@ -15,7 +16,7 @@ namespace Ui {
 class CreateDialog : public QDialog {
     Q_OBJECT
 public:
-    CreateDialog(QWidget *parent = 0);
+    CreateDialog(QWidget *parent = 0, QSqlRelationalTableModel *modelP = 0, bool create = true, int index=-1);
     ~CreateDialog();
 
 protected:
@@ -23,6 +24,9 @@ protected:
 
 private:
     Ui::CreateDialog *ui;
+    QDataWidgetMapper *mapper;
+    QSqlTableModel *statusRelModel, *locationRelModel;
+    QSqlRelationalTableModel *model;
 
 private slots:
     void accept();

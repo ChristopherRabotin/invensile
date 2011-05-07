@@ -1,39 +1,71 @@
 #include "createlocationdialog.h"
 #include "ui_createlocationdialog.h"
 
-CreateLocationDialog::CreateLocationDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::CreateLocationDialog)
+CreateLocationDialog::CreateLocationDialog(QWidget *parent, QSqlRelationalTableModel *modelP, bool create, int index) :
+        QDialog(parent),
+        ui(new Ui::CreateLocationDialog)
 {
     ui->setupUi(this);
-    /* Modify dates */
+    model = modelP;
+    /* Determining the reference number */
     QDateTime now = QDateTime::currentDateTime();
-    ui->closingDateEdit->setDateTime(now);
-    ui->creationDateEdit->setDateTime(now);
+    if(create){
+        QString nName = "", nRef = tr("Ref");
+        nName.append(tr("New location"));
+        nName.append(QString::number(backbone::instance()->count("name","addresses",nName)));
+        nRef.append(QString::number(backbone::instance()->count("ref","addresses",nRef)));
+        /* Modify dates */
+        ui->closingDateEdit->setDateTime(now);
+        ui->creationDateEdit->setDateTime(now);
+        /* Insert new information */
+        backbone::instance()->execMQueries("INSERT INTO locations (ref, name, creationdate, description, address_id, location_id, status_id) "
+                                            "VALUES ('"+nRef+"', '"+nName+"', '"+ui->creationDateEdit->text()+"', '"+tr("No description")+"', '0', '0', '0')");
+        model->select();
+    }
+
     /* Hide closing location UIs */
     ui->closingDateEdit->setVisible(false);
     ui->closingLabel->setVisible(false);
-    /* Set up location model */
+    /* Set up address model */
     ui->addressCB->clear();
-    QSqlRelationalTableModel *addressModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    addressModel->setTable("addresses");
-    addressModel->setRelation(0,QSqlRelation("addresses", "id", "name"));
-    addressModel->select();
-    ui->addressCB->setModel(addressModel);
+    qDebug() << "address_id = " << model->fieldIndex("location_id");
+    int addressFieldId = 7;//This returns -1 for an unknown reason: model->fieldIndex("status_id"); it does exist in the table though...
+    addressRelModel = model->relationModel(addressFieldId);
+    ui->addressCB->setModel(addressRelModel);
+    ui->addressCB->setModelColumn(addressRelModel->fieldIndex("name"));
     /* Set up location model */
     ui->locationCB->clear();
-    QSqlRelationalTableModel *locationModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    locationModel->setTable("locations");
-    locationModel->setRelation(0,QSqlRelation("locations", "id", "name"));
-    locationModel->select();
-    ui->locationCB->setModel(locationModel);
+    qDebug() << "location_id = " << model->fieldIndex("location_id");
+    int locationFieldId = 8;//This returns -1 for an unknown reason: model->fieldIndex("status_id"); it does exist in the table though...
+    locationRelModel = model->relationModel(locationFieldId);
+    ui->locationCB->setModel(locationRelModel);
+    ui->locationCB->setModelColumn(locationRelModel->fieldIndex("name"));
     /* Set up status model */
     ui->statusCB->clear();
-    QSqlRelationalTableModel *statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    statusModel->setTable("statuses");
-    statusModel->setRelation(0,QSqlRelation("statuses", "id", "name"));
-    statusModel->select();
-    ui->statusCB->setModel(statusModel);
+    qDebug() << "status_id = " << model->fieldIndex("status_id");
+    int statusFieldId = 9;//This returns -1 for an unknown reason: model->fieldIndex("status_id"); it does exist in the table though...
+    statusRelModel = model->relationModel(statusFieldId);
+    ui->statusCB->setModel(statusRelModel);
+    ui->statusCB->setModelColumn(statusRelModel->fieldIndex("name"));
+
+    /* Data mapping */
+    mapper = new QDataWidgetMapper(this);
+    mapper->setModel(model);
+    mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper->addMapping(ui->nameLineEdit, model->fieldIndex("name"));
+    mapper->addMapping(ui->refLineEdit, model->fieldIndex("ref"));
+    mapper->addMapping(ui->statusCB, statusFieldId);
+    mapper->addMapping(ui->locationCB, locationFieldId);
+    mapper->addMapping(ui->addressCB, addressFieldId);
+    mapper->addMapping(ui->creationDateEdit, model->fieldIndex("creationdate"));
+    mapper->addMapping(ui->closingDateEdit, model->fieldIndex("closingdate"));
+    mapper->addMapping(ui->descriptionTextEdit, model->fieldIndex("description"));
+    if(create){
+        mapper->toFirst();
+    }else{
+        mapper->setCurrentIndex(index);
+    }
     /* Signals */
     connect(ui->closedLocationCheckBox,SIGNAL(clicked()),this,SLOT(closeLocation()));
 }
@@ -63,5 +95,17 @@ void CreateLocationDialog::closeLocation()
 
 void CreateLocationDialog::accept()
 {
-    qDebug() << "accepted!";
+#ifdef DEBUG
+    qDebug() <<
+#endif
+            model->submitAll();
+#ifdef DEBUG
+    qDebug() <<
+#endif
+            mapper->submit();
+#ifdef DEBUG
+    qDebug() << backbone::instance()->db.lastError();
+    qDebug() << model->lastError();
+#endif
+    this->close();
 }

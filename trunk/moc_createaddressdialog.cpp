@@ -32,14 +32,14 @@ static const uint qt_meta_data_CreateAddressDialog[] = {
 
  // slots: signature, parameters, type, tag, flags
       21,   20,   20,   20, 0x08,
-      34,   30,   20,   20, 0x08,
+      30,   20,   20,   20, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_CreateAddressDialog[] = {
-    "CreateAddressDialog\0\0accept()\0row\0"
-    "updateButtons(int)\0"
+    "CreateAddressDialog\0\0accept()\0"
+    "checkValues()\0"
 };
 
 const QMetaObject CreateAddressDialog::staticMetaObject = {
@@ -72,7 +72,7 @@ int CreateAddressDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: accept(); break;
-        case 1: updateButtons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 1: checkValues(); break;
         default: ;
         }
         _id -= 2;
