@@ -13,7 +13,8 @@ CreateDialog::CreateDialog(QWidget *parent, QSqlRelationalTableModel *modelP, bo
         QString nName = "", nRef = "#"+QString::number(now.date().year());
         // correct the missing tailing zero for months inferior to october.
         nRef.append(now.date().month()<10?QString("0").append(QString::number(now.date().month())):QString::number(now.date().month()));
-        nRef.append(QString::number(now.date().day())+"-");
+        nRef.append(now.date().day()<10?QString("0").append(QString::number(now.date().day())):QString::number(now.date().day()));
+        nRef.append("-");
         nRef.append(QString::number(backbone::instance()->count("ref","items",nRef)));
         nName.append(tr("New item"));
         nName.append(QString::number(backbone::instance()->count("name","addresses",nName)));
