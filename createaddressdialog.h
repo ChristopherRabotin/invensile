@@ -17,7 +17,7 @@ namespace Ui {
 class CreateAddressDialog : public QDialog {
     Q_OBJECT
 public:
-    CreateAddressDialog(QWidget *parent = 0, QSqlRelationalTableModel *model = 0);
+    CreateAddressDialog(QWidget *parent = 0, QSqlRelationalTableModel *modelP = 0, bool create = true, int index=-1);
     ~CreateAddressDialog();
 
 protected:
@@ -26,12 +26,12 @@ protected:
 private:
     Ui::CreateAddressDialog *ui;
     QDataWidgetMapper *mapper;
-    QSqlRelationalTableModel *localModel;
     QSqlTableModel *relModel;
+    QSqlRelationalTableModel *model;
 
 private slots:
     void accept();
-    void updateButtons(int row);
+    void checkValues();
 };
 
 #endif // CREATEADDRESSDIALOG_H

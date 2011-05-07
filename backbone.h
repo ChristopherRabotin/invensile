@@ -23,6 +23,7 @@ public:
     void exportInventory();
     static backbone* instance();
     bool execMQueries(QString query);
+    bool execQ();
     int count(QString col, QString table, QString like);
 //private:
 };

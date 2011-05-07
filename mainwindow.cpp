@@ -225,23 +225,17 @@ void MainWindow::modify()
 }
 void MainWindow::create(int createWhat)
 {
-    QString nName = "", nRef = tr("Ref");
     switch(createWhat){
     case 0:
-        nName.append(tr("New address"));
-        nName.append(QString::number(backbone::instance()->count("name","addresses",nName)));
-        nRef.append(QString::number(backbone::instance()->count("ref","addresses",nRef)));
-        backbone::instance()->execMQueries("INSERT INTO 'addresses' (name,ref,status_id) VALUES ('"+nName+"','"+nRef+"','0');");
-        updateViews();
         createAddressDialog = new CreateAddressDialog(this,addressModel);
         createAddressDialog->show();
         break;
     case 1:
-        createDialog = new CreateDialog();
+        createDialog = new CreateDialog(this,itemModel);
         createDialog->show();
         break;
     case 2:
-        createLocationDialog = new CreateLocationDialog();
+        createLocationDialog = new CreateLocationDialog(this,locationModel);
         createLocationDialog->show();
         break;
     }
