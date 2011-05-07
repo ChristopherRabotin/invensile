@@ -87,6 +87,16 @@ bool backbone::execMQueries(QString queryStr)
     return rtn;
 }
 
+int backbone::count(QString col, QString table, QString like)
+{
+    query.exec("SELECT COUNT("+col+") FROM "+table+" WHERE "+col+" LIKE '"+like+"%'");
+    int numRef = 0;
+    if (query.next()) {
+        numRef = query.value(0).toString().toInt()+1;
+    }
+    return numRef;
+}
+
 backbone* backbone::instance()
 {
    static backbone* _setupObj= new backbone();

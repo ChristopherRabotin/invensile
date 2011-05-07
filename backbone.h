@@ -8,6 +8,7 @@
 #include <QDate>
 #include <QDebug>
 #include <QSqlError>
+#include <QVariant>
 
 class backbone : public QObject
 {
@@ -22,6 +23,7 @@ public:
     void exportInventory();
     static backbone* instance();
     bool execMQueries(QString query);
+    int count(QString col, QString table, QString like);
 //private:
 };
 

@@ -12,12 +12,12 @@ CreateDialog::CreateDialog(QWidget *parent) :
     // correct the missing tailing zero for months inferior to october.
     ref.append(now.date().month()<10?QString("0").append(QString::number(now.date().month())):QString::number(now.date().month()));
     ref.append(QString::number(now.date().day())+"-");
-    backbone::instance()->query.exec("SELECT COUNT(ref) FROM items WHERE ref LIKE '"+ref+"%'");
+    /*backbone::instance()->query.exec("SELECT COUNT(ref) FROM items WHERE ref LIKE '"+ref+"%'");
     int numRef = 1;
     if (backbone::instance()->query.next()) {
         numRef = backbone::instance()->query.value(0).toString().toInt()+1;
-    }
-    ref.append(QString::number(numRef));
+    }*/
+    ref.append(QString::number(backbone::instance()->count("ref","items",ref)));
 #ifdef DEBUG
     qDebug() << "Final ref = {" << ref <<"}";
 #endif
