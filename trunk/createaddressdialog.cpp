@@ -1,44 +1,35 @@
 #include "createaddressdialog.h"
 #include "ui_createaddressdialog.h"
 
-CreateAddressDialog::CreateAddressDialog(QWidget *parent) :
+CreateAddressDialog::CreateAddressDialog(QWidget *parent, QSqlRelationalTableModel *model) :
     QDialog(parent),
     ui(new Ui::CreateAddressDialog)
 {
     ui->setupUi(this);
-    /* Set up "buddies" */
-    ui->nameLabel->setBuddy(ui->nameLineEdit);
-    ui->refLabel->setBuddy(ui->refLineEdit);
-    ui->townLabel->setBuddy(ui->townLineEdit);
-    ui->streetLabel->setBuddy(ui->streetLineEdit);
-    ui->countryLabel->setBuddy(ui->countryLineEdit);
-    ui->postalCodeLabel->setBuddy(ui->postalCodeLineEdit);
-    ui->statusLabel->setBuddy(ui->statusCB);
 
     /* Set up status model */
     ui->statusCB->clear();
-    statusModel = new QSqlRelationalTableModel(this, backbone::instance()->db);
-    statusModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    statusModel->setTable("addresses");
-    int statusFieldId = statusModel->fieldIndex("status_id");
-    statusModel->setRelation(statusFieldId,QSqlRelation("statuses", "id", "name"));
-    statusModel->setSort(1, Qt::AscendingOrder); // all columns are to be sorted in an Ascended fashion
-    statusModel->select();
-    relModel = statusModel->relationModel(statusFieldId);
+    localModel = model;
+    int statusFieldId = 7;//This returns -1 for an unknown reason: localModel->fieldIndex("status_id"); it does exist in the table though...
+    relModel = localModel->relationModel(statusFieldId);
     ui->statusCB->setModel(relModel);
     ui->statusCB->setModelColumn(relModel->fieldIndex("name"));
     mapper = new QDataWidgetMapper(this);
+    mapper->setModel(localModel);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-    mapper->setModel(statusModel);
     mapper->setItemDelegate(new QSqlRelationalDelegate(this));
-    mapper->addMapping(ui->refLineEdit, statusModel->fieldIndex("ref"));
-    mapper->addMapping(ui->nameLineEdit, statusModel->fieldIndex("name"));
+    mapper->addMapping(ui->refLineEdit, localModel->fieldIndex("ref"));
+    mapper->addMapping(ui->nameLineEdit, localModel->fieldIndex("name"));
     mapper->addMapping(ui->statusCB, statusFieldId);
-    mapper->addMapping(ui->countryLineEdit, statusModel->fieldIndex("country"));
-    mapper->addMapping(ui->townLineEdit, statusModel->fieldIndex("town"));
-    mapper->addMapping(ui->postalCodeLineEdit, statusModel->fieldIndex("postal_code"));
-    mapper->addMapping(ui->streetLineEdit, statusModel->fieldIndex("street"));
+    mapper->addMapping(ui->countryLineEdit, localModel->fieldIndex("country"));
+    mapper->addMapping(ui->townLineEdit, localModel->fieldIndex("town"));
+    mapper->addMapping(ui->postalCodeLineEdit, localModel->fieldIndex("postal_code"));
+    mapper->addMapping(ui->streetLineEdit, localModel->fieldIndex("street"));
+    mapper->toFirst();
 
+    connect(ui->previousButton, SIGNAL(clicked()), mapper, SLOT(toPrevious()));
+    connect(ui->nextButton, SIGNAL(clicked()), mapper, SLOT(toNext()));
+    connect(mapper, SIGNAL(currentIndexChanged(int)), this, SLOT(updateButtons(int)));
 }
 
 CreateAddressDialog::~CreateAddressDialog()
@@ -63,31 +54,25 @@ void CreateAddressDialog::accept()
     if(ui->nameLineEdit->text().length() < 5){
         QMessageBox::critical(0, tr("Error"),tr("The name must be at least 5 characters long."), QMessageBox::Cancel);
         return;
-    }else if(ui->refLineEdit->text().length() > 10){
-        QMessageBox::critical(0, tr("Error"),tr("The reference may not be more than 10 characters long."), QMessageBox::Cancel);
+    }else if(ui->nameLineEdit->text().length() > 50){
+        QMessageBox::critical(0, tr("Error"),tr("The name must be less than 50 characters long."), QMessageBox::Cancel);
+        return;
+    }else if(ui->refLineEdit->text().length() < 3 || ui->refLineEdit->text().length() > 10){
+        QMessageBox::critical(0, tr("Error"),tr("The reference must be between 3 and 10 characters long."), QMessageBox::Cancel);
         return;
     }else if(ui->statusCB->currentIndex() < 0){
         QMessageBox::critical(0, tr("Error"),tr("The item must have a status."), QMessageBox::Cancel);
         return;
     }
-    qDebug() << mapper->submit();
-    /*backbone::instance()->query.prepare("INSERT INTO addresses (ref, name, country, town, postal_code, street, status_id) "
-                                        "VALUES (:r, :n, :c, :t, :p, :st, :s)");
-    backbone::instance()->query.bindValue(":r", ui->refLineEdit->text());
-    backbone::instance()->query.bindValue(":n", ui->nameLineEdit->text());
-    backbone::instance()->query.bindValue(":c", ui->countryLineEdit->text());
-    backbone::instance()->query.bindValue(":t", ui->townLineEdit->text());
-    backbone::instance()->query.bindValue(":p", ui->postalCodeLineEdit->text());
-    backbone::instance()->query.bindValue(":st", ui->streetLineEdit->text());
-    backbone::instance()->query.bindValue(":s", ui->statusCB->currentText());
-    backbone::instance()->query.exec();
 #ifdef DEBUG
-    qDebug() << "Error = {" << backbone::instance()->query.lastError().text() << "}";
-    qDebug() << "Latest query = {" << backbone::instance()->query.executedQuery() << "}";
+    qDebug() <<
 #endif
-    if(backbone::instance()->query.lastError().isValid()){
-        QMessageBox::critical(0, tr("Error"),backbone::instance()->query.lastError().text(), QMessageBox::Cancel);
-        return;
-    }*/
+            mapper->submit();
     this->close();
+}
+
+void CreateAddressDialog::updateButtons(int row)
+{
+    ui->previousButton->setEnabled(row > 0);
+    ui->nextButton->setEnabled(row < localModel->rowCount() - 1);
 }
